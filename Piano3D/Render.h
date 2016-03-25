@@ -19,8 +19,10 @@ public:
 		geometry_(std::make_unique<Geometry>(device_->GetContext())),
 		text_(std::make_unique<Text>(device_->GetDevice(), device_->GetContext())),
 
-		imageBuffer_(std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(), device_->GetDepthBuffer(),
-			width_, height_))
+		pianoDesk_(std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
+			device_->GetDepthBuffer(), width_, height_)),
+		keyboardReflection_(std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
+			device_->GetDepthBuffer(), width_, height_, true))
 	{
 		Resize(width_, height_);
 		camera_->Rotate(-40, 0, 0);
@@ -40,5 +42,5 @@ private:
 	const std::unique_ptr<Geometry> geometry_;
 	const std::unique_ptr<Text> text_;
 
-	std::unique_ptr<BackBuffer2D> imageBuffer_;
+	std::unique_ptr<BackBuffer2D> pianoDesk_, keyboardReflection_;
 };

@@ -10,6 +10,7 @@ using namespace SimpleMath;
 
 Geometry::Geometry(ID3D11DeviceContext* context)
 	: mesh_(make_unique<Mesh>()),
+	pianoDesk_(GeometricPrimitive::CreateBox(context, Vector3(58, 10, 2))),
 	batch_(make_shared<PrimitiveBatch<VertexPositionNormalColorTexture>>(context)),
 
 	whiteMiddle_(mesh_->GetWhiteMiddlePositions().size()),
@@ -64,7 +65,7 @@ Matrix Geometry::GetWorldMatrix(const int note) const
 	return move(Matrix::CreateTranslation(Vector3(static_cast<float>(offset), 0, 0)));
 }
 
-void Geometry::Draw(const int note, const string& fingerNumbers)
+void Geometry::DrawKeyboard(const int note, const string& fingerNumbers)
 {
 	if		(note == 0)		DrawWhiteLeft	(fingerNumbers);
 	else if (note == 1)		DrawBlack		(fingerNumbers);

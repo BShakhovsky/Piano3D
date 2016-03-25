@@ -35,6 +35,15 @@ public:
 		context_->OMSetDepthStencilState(DirectX::CommonStates(device_.Get()).DepthDefault(), 1);
 	}
 
+	void AlfaBlendingOn() const
+	{
+		context_->OMSetBlendState(DirectX::CommonStates(device_.Get()).AlphaBlend(), nullptr, 0xFF'FF'FF'FF);
+	}
+	void AlfaBlendingOff() const
+	{
+		context_->OMSetBlendState(DirectX::CommonStates(device_.Get()).Opaque(), nullptr, 0xFF'FF'FF'FF);
+	}
+
 	ID3D11Device* GetDevice()
 	{
 		return device_.Get();

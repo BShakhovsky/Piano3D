@@ -10,28 +10,44 @@ void Render::Resize(const UINT width, const UINT height)
 	width_ = width;
 	height_ = height;
 	device_->Resize(width_, height_);
-	imageBuffer_ = std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(), device_->GetDepthBuffer(),
-		width_, height_);
+	pianoDesk_ = std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
+		device_->GetDepthBuffer(), width_, height_);
+	keyboardReflection_ = std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
+		device_->GetDepthBuffer(), width_, height_);
 }
 
 void Render::Draw() const
 {
-	imageBuffer_->SetTargetBuffer(device_->GetContext(), device_->GetDepthView());
-	imageBuffer_->BeginFrame(device_->GetContext(), device_->GetDepthView(), SteelBlue.v);
+	keyboardReflection_->SetTargetBuffer(device_->GetContext(), device_->GetDepthView());
+	keyboardReflection_->BeginFrame(device_->GetContext(), device_->GetDepthView(), Black.v);
 	shader_->UpdateLights(false);
 	DrawScene(camera_->GetMirrowedViewMatrix());
 
+	pianoDesk_->SetTargetBuffer(device_->GetContext(), device_->GetDepthView());
+	pianoDesk_->BeginFrame(device_->GetContext(), device_->GetDepthView(), SteelBlue.v);
+	shader_->UpdateLights(true);
+	shader_->Apply(device_->GetDevice(), device_->GetContext());
+	geometry_->DrawDesk(camera_->GetViewMatrix(), device_->GetProjection(), nullptr,
+		device_->GetDevice(), device_->GetContext());
+
 	device_->Mode2D();
 	device_->SetTargetBuffer();
-
-	shader_->UpdateTexture(imageBuffer_->GetTexture(device_->GetContext()));
 	shader_->UpdateProjection(device_->GetOrthographic());
-	shader_->UpdateWorldView(Matrix::Identity, Matrix::CreateLookAt(Vector3::Backward, Vector3::Zero, Vector3::Up));
-	shader_->Apply(device_->GetDevice(), device_->GetContext());
+	shader_->UpdateWorldView(Matrix::Identity,
+		Matrix::CreateLookAt(Vector3::Backward, Vector3::Zero, Vector3::Up));
 
 	Frame frame(device_, SteelBlue.v);
-	imageBuffer_->Draw();
-	shader_->UpdateLights(true);
+
+	shader_->UpdateTexture(keyboardReflection_->GetTexture(device_->GetContext()));
+	shader_->Apply(device_->GetDevice(), device_->GetContext());
+	keyboardReflection_->Draw();
+
+	shader_->UpdateTexture(pianoDesk_->GetTexture(device_->GetContext()));
+	shader_->Apply(device_->GetDevice(), device_->GetContext());
+	device_->AlfaBlendingOn();
+	pianoDesk_->Draw();
+	device_->AlfaBlendingOff();
+
 	DrawScene(camera_->GetViewMatrix());
 
 	DrawDebugInfo();
@@ -46,7 +62,7 @@ void Render::DrawScene(const Matrix& view) const
 	{
 		shader_->UpdateWorldView(geometry_->GetWorldMatrix(i), view);
 		shader_->Apply(device_->GetDevice(), device_->GetContext());
-		geometry_->Draw(i, std::string(static_cast<size_t>(i % 3), static_cast<char>('0' + i % 6)));
+		geometry_->DrawKeyboard(i, std::string(static_cast<size_t>(i % 3), static_cast<char>('0' + i % 6)));
 	}
 }
 

@@ -18,6 +18,7 @@
 #include <DirectXTK\WICTextureLoader.h>
 #include <DirectXTK\VertexTypes.h>
 #include <DirectXTK\PrimitiveBatch.h>
+#include <DirectXTK\GeometricPrimitive.h>
 #pragma comment(lib, "DirectXTK.lib")
 #pragma comment(lib, "d3d11.lib")
 

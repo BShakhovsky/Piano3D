@@ -5,7 +5,8 @@ class BackBuffer2D : boost::noncopyable
 {
 	BackBuffer2D() = delete;
 public:
-	explicit BackBuffer2D(ID3D11Device*, ID3D11DeviceContext*, ID3D11Texture2D* depthBuffer, UINT width, UINT height);
+	explicit BackBuffer2D(ID3D11Device*, ID3D11DeviceContext*, ID3D11Texture2D* depthBuffer,
+		UINT width, UINT height, bool reflection = false);
 
 	void SetTargetBuffer(ID3D11DeviceContext* context, ID3D11DepthStencilView* depthView)
 	{

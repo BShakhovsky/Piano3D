@@ -8,13 +8,17 @@ using namespace Colors;
 using namespace SimpleMath;
 
 BackBuffer2D::BackBuffer2D(ID3D11Device* device, ID3D11DeviceContext* context, ID3D11Texture2D* depthBuffer,
-	const UINT width, const UINT height)
+	const UINT width, const UINT height, const bool reflection)
 	: vertices_
 {
-	{ Vector3(-static_cast<float>(width) / 2,  static_cast<float>(height) / 2, 0), Vector3::Backward, Color(White.v), Vector2(1, 0) },
-	{ Vector3( static_cast<float>(width) / 2,  static_cast<float>(height) / 2, 0), Vector3::Backward, Color(White.v), Vector2(0, 0) },
-	{ Vector3( static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0), Vector3::Backward, Color(White.v), Vector2(0, 1) },
-	{ Vector3(-static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0), Vector3::Backward, Color(White.v), Vector2(1, 1) }
+	{ Vector3(-static_cast<float>(width) / 2,  static_cast<float>(height) / 2, 0), Vector3::Backward,
+		Color(White.v), reflection ? Vector2(1, 0) : Vector2(0, 0) },
+	{ Vector3( static_cast<float>(width) / 2,  static_cast<float>(height) / 2, 0), Vector3::Backward,
+		Color(White.v), reflection ? Vector2(0, 0) : Vector2(1, 0) },
+	{ Vector3( static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0), Vector3::Backward,
+		Color(White.v), reflection ? Vector2(0, 1) : Vector2(1, 1) },
+	{ Vector3(-static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0), Vector3::Backward,
+		Color(White.v), reflection ? Vector2(1, 1) : Vector2(0, 1) }
 },
 	batch_(make_shared<PrimitiveBatch<VertexPositionNormalColorTexture>>(context))
 {
