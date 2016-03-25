@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\WinAPI">
+      <UniqueIdentifier>{82b453f5-5906-433d-a3b0-29568b7c5b3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Standard">
+      <UniqueIdentifier>{087fb1d7-b0df-435a-9d93-6fc5bfce4656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Standard">
+      <UniqueIdentifier>{b4bb48dd-9453-4f18-809a-68df77ead509}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WinAPI">
+      <UniqueIdentifier>{84c8e446-bcf3-4c96-b15b-d72bf103924a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DirectX">
+      <UniqueIdentifier>{17bc7b46-c583-44ac-ace8-c09b4b4ffc97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DirectX">
+      <UniqueIdentifier>{69b4259e-e3d5-438e-a450-755d468183d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{7dfb1709-b7d2-45f0-ad1f-06e0759cbac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DirectX\Utilities">
+      <UniqueIdentifier>{945dfdca-3500-4be2-a3bf-147f5b4eae9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WinAPI\GDI">
+      <UniqueIdentifier>{c83df481-eb7e-486e-a4a0-5e347f99950f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="WinClass.h">
+      <Filter>Header Files\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="WinMessages.h">
+      <Filter>Header Files\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DxError.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="FontGdi.h">
+      <Filter>Header Files\WinAPI\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="CanvasGdi.h">
+      <Filter>Header Files\WinAPI\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Batch.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferLocker.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="BackBuffer2D.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="WinClass.cpp">
+      <Filter>Source Files\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMessages.cpp">
+      <Filter>Source Files\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="BackBuffer2D.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Piano3D.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Font.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resource\small.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="Resource\Piano3D.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
