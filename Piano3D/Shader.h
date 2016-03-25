@@ -4,7 +4,7 @@ class Shader : boost::noncopyable
 {
 	Shader() = delete;
 public:
-	explicit Shader(ID3D11Device*, ID3D11DeviceContext*);
+	explicit Shader(ID3D11Device*);
 
 	void UpdateWorldView(const DirectX::SimpleMath::Matrix& world, const DirectX::SimpleMath::Matrix& view) const
 	{
@@ -30,11 +30,7 @@ public:
 		effect_->SetTexture(texture ? texture : texture_.Get());
 	}
 
-	void Apply(ID3D11DeviceContext* context) const
-	{
-		effect_->Apply(context);
-		context->PSSetSamplers(0, 1, sampler_.GetAddressOf());
-	}
+	void Apply(ID3D11Device*, ID3D11DeviceContext*);
 private:
 	const std::unique_ptr<DirectX::BasicEffect> effect_;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;

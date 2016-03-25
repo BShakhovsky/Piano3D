@@ -14,6 +14,7 @@
 #include <DirectXTK\SimpleMath.h>
 #include <DirectXTK\CommonStates.h>
 #include <DirectXTK\Effects.h>
+#include <DirectXTK\SpriteFont.h>
 #include <DirectXTK\WICTextureLoader.h>
 #include <DirectXTK\VertexTypes.h>
 #include <DirectXTK\PrimitiveBatch.h>

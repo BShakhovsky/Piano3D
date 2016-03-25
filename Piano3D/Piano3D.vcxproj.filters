@@ -37,9 +37,6 @@
     <Filter Include="Header Files\DirectX\Utilities">
       <UniqueIdentifier>{945dfdca-3500-4be2-a3bf-147f5b4eae9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\WinAPI\GDI">
-      <UniqueIdentifier>{c83df481-eb7e-486e-a4a0-5e347f99950f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -81,22 +78,16 @@
     <ClInclude Include="DxError.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="FontGdi.h">
-      <Filter>Header Files\WinAPI\GDI</Filter>
-    </ClInclude>
-    <ClInclude Include="CanvasGdi.h">
-      <Filter>Header Files\WinAPI\GDI</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Batch.h">
       <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="BufferLocker.h">
-      <Filter>Header Files\DirectX\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="BackBuffer2D.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,6 +125,9 @@
     <ClCompile Include="BackBuffer2D.cpp">
       <Filter>Source Files\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Piano3D.rc">
@@ -141,14 +135,14 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Font.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resource\small.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="Resource\Piano3D.ico">
       <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="Resource\Font.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
 </Project>

@@ -97,7 +97,7 @@ void Geometry::DrawBlack(const string& fingerNumbers)
 {
 	UpdateFinger(black_.data(), black_.data() + 4, fingerNumbers);
 
-	Batch scene(batch_);
+	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetBlackIndices().data(),
 		mesh_->GetBlackIndices().size(), black_.data(), black_.size());
 }
@@ -106,7 +106,7 @@ void Geometry::DrawWhiteLeft(const string& fingerNumbers)
 {
 	UpdateFinger(whiteLeft_.data() + 4, whiteLeft_.data(), fingerNumbers);
 
-	Batch scene(batch_);
+	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetWhiteIndices().data(),
 		mesh_->GetWhiteIndices().size(), whiteLeft_.data(), whiteLeft_.size());
 }
@@ -115,7 +115,7 @@ void Geometry::DrawWhiteMiddle(const string& fingerNumbers)
 {
 	UpdateFinger(whiteMiddle_.data() + 4, whiteMiddle_.data(), fingerNumbers);
 
-	Batch scene(batch_);
+	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetWhiteIndices().data(),
 		mesh_->GetWhiteIndices().size(), whiteMiddle_.data(), whiteMiddle_.size());
 }
@@ -124,7 +124,7 @@ void Geometry::DrawWhiteRight(const string& fingerNumbers)
 {
 	UpdateFinger(whiteRight_.data() + 4, whiteRight_.data(), fingerNumbers);
 
-	Batch scene(batch_);
+	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetWhiteIndices().data(),
 		mesh_->GetWhiteIndices().size(), whiteRight_.data(), whiteRight_.size());
 }

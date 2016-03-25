@@ -45,17 +45,13 @@ int WinClass::Main(const int nCmdShow) const
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else
+		else try
 		{
-			try
-			{
-				render->Draw();
-			}
-			catch (const DxError& e)
-			{
-				MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
-			}
-			InvalidateRect(hWnd, nullptr, FALSE);
+			render->Draw();
+		}
+		catch (const DxError& e)
+		{
+			MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
 		}
 
 	return static_cast<int>(msg.wParam);

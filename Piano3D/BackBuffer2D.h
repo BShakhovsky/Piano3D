@@ -18,7 +18,7 @@ public:
 	}
 	void Draw() const
 	{
-		Batch scene(batch_);
+		Batch<DirectX::PrimitiveBatch<DirectX::VertexPositionNormalColorTexture>> scene(batch_);
 		batch_->DrawQuad(vertices_.front(), vertices_.at(1), vertices_.at(2), vertices_.back());
 	}
 
