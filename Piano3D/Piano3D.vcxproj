@@ -188,6 +188,7 @@
     <ResourceCompile Include="Piano3D.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\Desk.png" />
     <Image Include="Resource\Font.png" />
     <Image Include="Resource\Piano3D.ico" />
     <Image Include="Resource\small.ico" />

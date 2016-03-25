@@ -37,6 +37,9 @@
     <Filter Include="Header Files\DirectX\Utilities">
       <UniqueIdentifier>{945dfdca-3500-4be2-a3bf-147f5b4eae9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{08a50fea-76d7-4c8b-8b61-6f2b4a548451}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -141,8 +144,11 @@
     <Image Include="Resource\Piano3D.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="Resource\Desk.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
     <Image Include="Resource\Font.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
 </Project>

@@ -18,22 +18,25 @@ public:
 	void UpdateLights(bool enableSpecular) const
 	{
 		if (enableSpecular)
-			effect_->EnableDefaultLighting();
-		else
 		{
-			effect_->DisableSpecular();
-			effect_->SetLightDiffuseColor(0, DirectX::Colors::Gray);
+			effect_->SetSpecularColor(DirectX::Colors::White);
+			effect_->SetSpecularPower(16);
 		}
+		else effect_->DisableSpecular();
 	}
 	void UpdateTexture(ID3D11ShaderResourceView* texture = nullptr) const
 	{
-		effect_->SetTexture(texture ? texture : texture_.Get());
+		effect_->SetTexture(texture ? texture : textureFingers_.Get());
+	}
+	ID3D11ShaderResourceView* GetDeskTexture()
+	{
+		return textureDesk_.Get();
 	}
 
 	void Apply(ID3D11Device*, ID3D11DeviceContext*);
 private:
 	const std::unique_ptr<DirectX::BasicEffect> effect_;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> textureFingers_, textureDesk_;
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_;
 };

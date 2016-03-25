@@ -9,11 +9,12 @@ public:
 
 	DirectX::SimpleMath::Matrix GetWorldMatrix(int note) const;
 	void DrawKeyboard(int note, const std::string& fingerNumbers = "");
-	void DrawDesk(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection,
-		ID3D11ShaderResourceView* texture, ID3D11Device* device, ID3D11DeviceContext* context) const
+	void DrawDesk(ID3D11Device* device, ID3D11DeviceContext* context,
+		const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection,
+		ID3D11ShaderResourceView* texture) const
 	{
 		pianoDesk_->Draw(DirectX::SimpleMath::Matrix::CreateTranslation(26, 5, -1), view, projection,
-			DirectX::SimpleMath::Color(0.15f, 0.15f, 0.15f, 0.85f), texture, false, [&device, &context]()
+			DirectX::SimpleMath::Color(0.15f, 0.15f, 0.15f, 0.9f), texture , false, [&device, &context]()
 		{
 			context->OMSetBlendState(DirectX::CommonStates(device).Opaque(), nullptr, 0xFF'FF'FF'FF);
 		});

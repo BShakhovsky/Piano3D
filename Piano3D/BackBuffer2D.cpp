@@ -11,14 +11,14 @@ BackBuffer2D::BackBuffer2D(ID3D11Device* device, ID3D11DeviceContext* context, I
 	const UINT width, const UINT height, const bool reflection)
 	: vertices_
 {
-	{ Vector3(-static_cast<float>(width) / 2,  static_cast<float>(height) / 2, 0), Vector3::Backward,
-		Color(White.v), reflection ? Vector2(1, 0) : Vector2(0, 0) },
-	{ Vector3( static_cast<float>(width) / 2,  static_cast<float>(height) / 2, 0), Vector3::Backward,
-		Color(White.v), reflection ? Vector2(0, 0) : Vector2(1, 0) },
-	{ Vector3( static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0), Vector3::Backward,
-		Color(White.v), reflection ? Vector2(0, 1) : Vector2(1, 1) },
-	{ Vector3(-static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0), Vector3::Backward,
-		Color(White.v), reflection ? Vector2(1, 1) : Vector2(0, 1) }
+	{ Vector3(-static_cast<float>(width) / 2, +static_cast<float>(height) / 2, 0),
+		Vector3::Backward, Color(White.v), reflection ? Vector2(1, 0) : Vector2(0, 0) },
+	{ Vector3(+static_cast<float>(width) / 2, +static_cast<float>(height) / 2, 0),
+		Vector3::Backward, Color(White.v), reflection ? Vector2(0, 0) : Vector2(1, 0) },
+	{ Vector3(+static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0),
+		Vector3::Backward, Color(White.v), reflection ? Vector2(0, 1) : Vector2(1, 1) },
+	{ Vector3(-static_cast<float>(width) / 2, -static_cast<float>(height) / 2, 0),
+		Vector3::Backward, Color(White.v), reflection ? Vector2(1, 1) : Vector2(0, 1) }
 },
 	batch_(make_shared<PrimitiveBatch<VertexPositionNormalColorTexture>>(context))
 {
@@ -28,7 +28,7 @@ BackBuffer2D::BackBuffer2D(ID3D11Device* device, ID3D11DeviceContext* context, I
 	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	if (FAILED(device->CreateTexture2D(&textureDesc, nullptr, &textureMS_)))
 		throw DxError("Could not create DirectX multi-sampled back-buffer texture");
-	textureDesc = CD3D11_TEXTURE2D_DESC(BACK_BUFFER_FORMAT, max(width, 1), max(height, 1));
+	textureDesc = CD3D11_TEXTURE2D_DESC(BACK_BUFFER_FORMAT, textureDesc.Width, textureDesc.Height);
 	textureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
 	if (FAILED(device->CreateTexture2D(&textureDesc, nullptr, &textureSS_)))
 		throw DxError("Could not create DirectX single-sampled back-buffer texture");
