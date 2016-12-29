@@ -13,49 +13,40 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\WinAPI">
-      <UniqueIdentifier>{82b453f5-5906-433d-a3b0-29568b7c5b3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Standard">
-      <UniqueIdentifier>{087fb1d7-b0df-435a-9d93-6fc5bfce4656}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Standard">
-      <UniqueIdentifier>{b4bb48dd-9453-4f18-809a-68df77ead509}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\WinAPI">
-      <UniqueIdentifier>{84c8e446-bcf3-4c96-b15b-d72bf103924a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\DirectX">
-      <UniqueIdentifier>{17bc7b46-c583-44ac-ace8-c09b4b4ffc97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DirectX">
-      <UniqueIdentifier>{69b4259e-e3d5-438e-a450-755d468183d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Icons">
-      <UniqueIdentifier>{7dfb1709-b7d2-45f0-ad1f-06e0759cbac5}</UniqueIdentifier>
+      <UniqueIdentifier>{b3bf9963-f320-47eb-b315-ee122c8727a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\DirectX\Utilities">
-      <UniqueIdentifier>{945dfdca-3500-4be2-a3bf-147f5b4eae9d}</UniqueIdentifier>
+      <UniqueIdentifier>{b5c0e37d-450c-458d-9c62-3b0dc1413b7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DirectX">
+      <UniqueIdentifier>{b9ab01e9-5d91-4424-93d4-10cfb404211c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{08a50fea-76d7-4c8b-8b61-6f2b4a548451}</UniqueIdentifier>
+      <UniqueIdentifier>{7f2c8a43-ca3b-46cc-9d82-3ff1bf0b748c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exported">
+      <UniqueIdentifier>{ff52a2e2-4cc7-422d-9112-c4602b6b6611}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files\Standard</Filter>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files\Standard</Filter>
+    <ClInclude Include="Batch.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files\Standard</Filter>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="WinClass.h">
-      <Filter>Header Files\WinAPI</Filter>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="WinMessages.h">
-      <Filter>Header Files\WinAPI</Filter>
+    <ClInclude Include="BackBuffer2D.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
       <Filter>Header Files\DirectX</Filter>
@@ -63,92 +54,74 @@
     <ClInclude Include="Geometry.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceLoader.h">
-      <Filter>Header Files\DirectX\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame.h">
-      <Filter>Header Files\DirectX\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="DxError.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Batch.h">
-      <Filter>Header Files\DirectX\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="BackBuffer2D.h">
+    <ClInclude Include="Shader.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DxError.h">
+      <Filter>Header Files\Exported</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Render.h">
+      <Filter>Header Files\Exported</Filter>
+    </ClInclude>
+    <ClInclude Include="Render_pimpl.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files\Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="WinClass.cpp">
-      <Filter>Source Files\WinAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="WinMessages.cpp">
-      <Filter>Source Files\WinAPI</Filter>
-    </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry.cpp">
+    <ClCompile Include="Text.cpp">
       <Filter>Source Files\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="BackBuffer2D.cpp">
       <Filter>Source Files\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Render_pimpl.cpp">
       <Filter>Source Files\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Piano3D.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resource\small.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="Resource\Piano3D.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
     <Image Include="Resource\Desk.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resource\Font.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Piano3D.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

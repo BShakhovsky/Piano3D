@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Piano3D", "Piano3D\Piano3D.vcxproj", "{765EBA23-A283-4663-9388-54BECF93412B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestRun", "TestRun\TestRun.vcxproj", "{765EBA23-A283-4663-9388-54BECF93412B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Piano3D", "Piano3D\Piano3D.vcxproj", "{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{765EBA23-A283-4663-9388-54BECF93412B}.Release|x64.Build.0 = Release|x64
 		{765EBA23-A283-4663-9388-54BECF93412B}.Release|x86.ActiveCfg = Release|Win32
 		{765EBA23-A283-4663-9388-54BECF93412B}.Release|x86.Build.0 = Release|Win32
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Debug|x64.ActiveCfg = Debug|x64
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Debug|x64.Build.0 = Debug|x64
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Debug|x86.ActiveCfg = Debug|Win32
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Debug|x86.Build.0 = Debug|Win32
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Release|x64.ActiveCfg = Release|x64
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Release|x64.Build.0 = Release|x64
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Release|x86.ActiveCfg = Release|Win32
+		{69D7A0FC-1C2E-49F2-85D2-A2711D7F40D4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
