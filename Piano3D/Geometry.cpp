@@ -16,24 +16,32 @@ Geometry::Geometry(ID3D11DeviceContext* context)
 	whiteMiddle_(mesh_->GetWhiteMiddlePositions().size()),
 	whiteLeft_(mesh_->GetWhiteLeftPositions().size()),
 	whiteRight_(mesh_->GetWhiteRightPositions().size()),
-	black_(mesh_->GetBlackPositions().size())
+	black_(mesh_->GetBlackPositions().size()),
+
+	greyMiddle_(mesh_->GetWhiteMiddlePositions().size()),
+	greyLeft_(mesh_->GetWhiteLeftPositions().size()),
+	greyRight_(mesh_->GetWhiteRightPositions().size()),
+	grey_(mesh_->GetBlackPositions().size())
 {
 	for (size_t i(0); i < whiteMiddle_.size(); ++i)
 	{
-		whiteMiddle_.at(i).position = mesh_->GetWhiteMiddlePositions().at(i);
-		whiteLeft_.at(i).position = mesh_->GetWhiteLeftPositions().at(i);
-		whiteRight_.at(i).position = mesh_->GetWhiteRightPositions().at(i);
-		whiteLeft_.at(i).normal = whiteRight_.at(i).normal = whiteMiddle_.at(i).normal = mesh_->GetWhiteNormals().at(i);
+		whiteMiddle_.at(i).position = greyMiddle_.at(i).position = mesh_->GetWhiteMiddlePositions().at(i);
+		whiteLeft_.at(i).position = greyLeft_.at(i).position = mesh_->GetWhiteLeftPositions().at(i);
+		whiteRight_.at(i).position = greyRight_.at(i).position = mesh_->GetWhiteRightPositions().at(i);
+		whiteLeft_.at(i).normal = whiteRight_.at(i).normal = whiteMiddle_.at(i).normal
+			= greyLeft_.at(i).normal = greyRight_.at(i).normal = greyMiddle_.at(i).normal
+			= mesh_->GetWhiteNormals().at(i);
 		whiteLeft_.at(i).color = whiteRight_.at(i).color = whiteMiddle_.at(i).color = Color(AliceBlue.v);
+		greyLeft_.at(i).color = greyRight_.at(i).color = greyMiddle_.at(i).color = Color(Silver.v);
 	}
 	for (size_t i(0); i < black_.size(); ++i)
 	{
-		black_.at(i).position = mesh_->GetBlackPositions().at(i);
-		black_.at(i).normal = mesh_->GetBlackNormals().at(i);
+		black_.at(i).position = grey_.at(i).position = mesh_->GetBlackPositions().at(i);
+		black_.at(i).normal = grey_.at(i).normal = mesh_->GetBlackNormals().at(i);
 		black_.at(i).color = Color(0.15f, 0.15f, 0.15f);
+		grey_.at(i).color = Color(SlateGray.v);
 	}
 }
-
 Geometry::~Geometry() {}
 
 Matrix Geometry::GetWorldMatrix(const int note) const
@@ -64,9 +72,15 @@ Matrix Geometry::GetWorldMatrix(const int note) const
 
 	return move(Matrix::CreateTranslation(Vector3(static_cast<float>(offset), 0, 0)));
 }
-
-void Geometry::DrawKeyboard(const int note, const string& fingerNumbers)
+Matrix Geometry::GetRotatedMatrix(const int note, const float angle) const
 {
+	return move(Matrix::CreateRotationX(angle) * GetWorldMatrix(note));
+}
+
+void Geometry::DrawKey(const int note, const bool highlighted, const char* fingerNumbers)
+{
+	keyIsGrey_ = highlighted;
+
 	if		(note == 0)		DrawWhiteLeft	(fingerNumbers);
 	else if (note == 1)		DrawBlack		(fingerNumbers);
 	else if (note == 2)		DrawWhiteRight	(fingerNumbers);
@@ -96,38 +110,43 @@ void Geometry::DrawKeyboard(const int note, const string& fingerNumbers)
 
 void Geometry::DrawBlack(const string& fingerNumbers)
 {
-	UpdateFinger(black_.data(), black_.data() + 4, fingerNumbers);
+	const auto key(keyIsGrey_ ? &grey_ : &black_);
+
+	UpdateFinger(key->data(), key->data() + 4, fingerNumbers);
 
 	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetBlackIndices().data(),
-		mesh_->GetBlackIndices().size(), black_.data(), black_.size());
+		mesh_->GetBlackIndices().size(), key->data(), key->size());
 }
-
 void Geometry::DrawWhiteLeft(const string& fingerNumbers)
 {
-	UpdateFinger(whiteLeft_.data() + 4, whiteLeft_.data(), fingerNumbers);
+	const auto key(keyIsGrey_ ? &greyLeft_ : &whiteLeft_);
+
+	UpdateFinger(key->data() + 4, key->data(), fingerNumbers);
 
 	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetWhiteIndices().data(),
-		mesh_->GetWhiteIndices().size(), whiteLeft_.data(), whiteLeft_.size());
+		mesh_->GetWhiteIndices().size(), key->data(), key->size());
 }
-
 void Geometry::DrawWhiteMiddle(const string& fingerNumbers)
 {
-	UpdateFinger(whiteMiddle_.data() + 4, whiteMiddle_.data(), fingerNumbers);
+	const auto key(keyIsGrey_ ? &greyMiddle_ : &whiteMiddle_);
+
+	UpdateFinger(key->data() + 4, key->data(), fingerNumbers);
 
 	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetWhiteIndices().data(),
-		mesh_->GetWhiteIndices().size(), whiteMiddle_.data(), whiteMiddle_.size());
+		mesh_->GetWhiteIndices().size(), key->data(), key->size());
 }
-
 void Geometry::DrawWhiteRight(const string& fingerNumbers)
 {
-	UpdateFinger(whiteRight_.data() + 4, whiteRight_.data(), fingerNumbers);
+	const auto key(keyIsGrey_ ? &greyRight_ : &whiteRight_);
+
+	UpdateFinger(key->data() + 4, key->data(), fingerNumbers);
 
 	Batch<PrimitiveBatch<VertexPositionNormalColorTexture>> scene(batch_);
 	batch_->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, mesh_->GetWhiteIndices().data(),
-		mesh_->GetWhiteIndices().size(), whiteRight_.data(), whiteRight_.size());
+		mesh_->GetWhiteIndices().size(), key->data(), key->size());
 }
 
 void Geometry::UpdateFinger(VertexPositionNormalColorTexture* destination1,

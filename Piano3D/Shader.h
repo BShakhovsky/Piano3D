@@ -24,9 +24,10 @@ public:
 		}
 		else effect_->DisableSpecular();
 	}
-	void UpdateTexture(ID3D11ShaderResourceView* texture = nullptr) const
+	void UpdateTexture(ID3D11ShaderResourceView* texture = nullptr, bool leftHand = false) const
 	{
-		effect_->SetTexture(texture ? texture : textureFingers_.Get());
+		effect_->SetTexture(texture ? texture :
+			leftHand ? textureFingersLeft_.Get() : textureFingersRight_.Get());
 	}
 	ID3D11ShaderResourceView* GetDeskTexture()
 	{
@@ -37,6 +38,6 @@ public:
 private:
 	const std::unique_ptr<DirectX::BasicEffect> effect_;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> layout_;
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> textureFingers_, textureDesk_;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> textureDesk_, textureFingersLeft_, textureFingersRight_;
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_;
 };

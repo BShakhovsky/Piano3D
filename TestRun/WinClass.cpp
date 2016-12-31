@@ -3,6 +3,7 @@
 #include "WinMessages.h"
 #include "Render.h"
 #include "DxError.h"
+#include "vld.h"
 
 using namespace std;
 
@@ -39,6 +40,11 @@ int WinClass::Main(const int nCmdShow) const
 
 	const auto hAccelTable(LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_PIANO3D)));
 	MSG msg{ 0 };
+
+#ifdef _DEBUG
+	const auto before(VLDGetLeaksCount());
+#endif
+
 	while (msg.message != WM_QUIT)
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) && !TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 		{
@@ -53,6 +59,11 @@ int WinClass::Main(const int nCmdShow) const
 		{
 			MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
 		}
+
+#ifdef _DEBUG
+		const auto after(VLDGetLeaksCount());
+#endif
+	assert("Memory leaks detected" && before + 3 == after);
 
 	return static_cast<int>(msg.wParam);
 }

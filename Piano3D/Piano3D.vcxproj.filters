@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Exported">
       <UniqueIdentifier>{ff52a2e2-4cc7-422d-9112-c4602b6b6611}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\DirectX\Utilities">
+      <UniqueIdentifier>{84ac0008-9d3b-4b63-a111-1b9f3a5a9e8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceLoader.h">
@@ -78,6 +81,15 @@
     <ClInclude Include="Render_pimpl.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="RenderData.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="FramesPerSec.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyStates.h">
+      <Filter>Header Files\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Text.cpp">
@@ -110,12 +122,24 @@
     <ClCompile Include="Render_pimpl.cpp">
       <Filter>Source Files\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="RenderData.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="FramesPerSec.cpp">
+      <Filter>Source Files\DirectX\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyStates.cpp">
+      <Filter>Source Files\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Desk.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="Resource\Font.png">
+    <Image Include="Resource\FingersLeft.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resource\FingersRight.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

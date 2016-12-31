@@ -16,14 +16,19 @@ Shader::Shader(ID3D11Device* device)
 	effect_->EnableDefaultLighting();
 	effect_->SetTextureEnabled(true);
 
-	ResourceLoader resourceFingers(IDB_FONT, TEXT("PNG"));
-	if (FAILED(CreateWICTextureFromMemory(device,
-		static_cast<const BYTE*>(resourceFingers.Data()), resourceFingers.Size(),
-		nullptr, &textureFingers_))) throw DxError("Could not create DirectX texture-resource");
 	ResourceLoader resourceDesk(IDB_DESK, TEXT("PNG"));
 	if (FAILED(CreateWICTextureFromMemory(device,
 		static_cast<const BYTE*>(resourceDesk.Data()), resourceDesk.Size(),
 		nullptr, &textureDesk_))) throw DxError("Could not create DirectX texture-resource");
+
+	ResourceLoader resourceLeft(IDB_LEFT, TEXT("PNG"));
+	if (FAILED(CreateWICTextureFromMemory(device,
+		static_cast<const BYTE*>(resourceLeft.Data()), resourceLeft.Size(),
+		nullptr, &textureFingersLeft_))) throw DxError("Could not create DirectX texture-resource");
+	ResourceLoader resourceRight(IDB_RIGHT, TEXT("PNG"));
+	if (FAILED(CreateWICTextureFromMemory(device,
+		static_cast<const BYTE*>(resourceRight.Data()), resourceRight.Size(),
+		nullptr, &textureFingersRight_))) throw DxError("Could not create DirectX texture-resource");
 
 	sampler_ = CommonStates(device).LinearWrap();
 }

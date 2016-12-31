@@ -22,6 +22,25 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM)
 	return FALSE;
 }
 
+void CALLBACK OnTimer(const HWND, UINT, UINT_PTR, const DWORD dwTime)
+{
+	static const auto start(dwTime);
+
+	if (!((dwTime - start) / 200 % 10)) WinClass::render->ReleaseAllKeys();
+	WinClass::render->PressKey(rand() % 88);
+	WinClass::render->AssignFingerNums(rand() % 88,
+		string(static_cast<size_t>(rand() % 3), static_cast<char>('0' + rand() % 6)).c_str(),
+		rand() % 2 == 0);
+}
+
+inline BOOL WinMessages::OnCreate(const HWND hWnd, LPCREATESTRUCT)
+{
+	srand(static_cast<unsigned>(time(nullptr)));
+	SetTimer(hWnd, 0, 200, OnTimer);
+
+	return true;
+}
+
 void WinMessages::OnSize(const HWND hWnd, const UINT, const int cx, const int cy)
 {
 	width = static_cast<UINT>(cx);
@@ -30,18 +49,6 @@ void WinMessages::OnSize(const HWND hWnd, const UINT, const int cx, const int cy
 	if (WinClass::render) try
 	{
 		WinClass::render->Resize(width, height);
-		WinClass::render->Draw();
-	}
-	catch (const DxError& e)
-	{
-		MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
-	}
-}
-void OnMove(HWND hWnd, int, int)
-{
-	if (WinClass::render) try
-	{
-		WinClass::render->Draw();
 	}
 	catch (const DxError& e)
 	{
@@ -65,8 +72,8 @@ LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WP
 {
 	switch (message)
 	{
+		HANDLE_MSG(hWnd, WM_CREATE, OnCreate);
 		HANDLE_MSG(hWnd, WM_SIZE, OnSize);
-		HANDLE_MSG(hWnd, WM_MOVE, OnMove);
 		HANDLE_MSG(hWnd, WM_COMMAND, OnCommand);
 		HANDLE_MSG(hWnd, WM_DESTROY, OnDestroy);
 	default: return DefWindowProc(hWnd, message, wParam, lParam);

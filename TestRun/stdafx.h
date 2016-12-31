@@ -9,6 +9,8 @@
 #include <Windows.h>
 #include <WindowsX.h>
 
+#include <cassert>
+#include <ctime>
 #include <memory>
 #include <string>
 

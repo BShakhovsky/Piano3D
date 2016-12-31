@@ -1,114 +1,65 @@
 #include "stdafx.h"
 #include "Render_pimpl.h"
+#include "RenderData.h"
 #include "Frame.h"
 
-#include "Device.h"
-#include "Camera.h"
-#include "Shader.h"
-#include "Geometry.h"
-#include "Text.h"
-#include "BackBuffer2D.h"
-
-using namespace DirectX::Colors;
-using namespace DirectX::SimpleMath;
+using std::make_unique;
 
 Render_pimpl::Render_pimpl(const HWND hWnd, const UINT width, const UINT height)
-	: width_(width), height_(height),
-
-	device_(std::make_shared<Device>(hWnd, width_, height_)),
-	camera_(std::make_unique<Camera>(26.0f, 25.0f, 30.0f)),
-	shader_(std::make_unique<Shader>(device_->GetDevice())),
-	geometry_(std::make_unique<Geometry>(device_->GetContext())),
-	text_(std::make_unique<Text>(device_->GetDevice(), device_->GetContext())),
-
-	pianoDesk_(std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
-		device_->GetDepthBuffer(), width_, height_)),
-	keyboardReflection_(std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
-		device_->GetDepthBuffer(), width_, height_, true))
+	: data_(make_unique<RenderData>(hWnd, width, height))
 {
-	Resize(width_, height_);
-	camera_->Rotate(-40, 0, 0);
+	Resize(width, height);
+	data_->RotateCamera(-40, 0, 0);
 }
 
 Render_pimpl::~Render_pimpl() {}
 
+
 void Render_pimpl::Resize(const UINT width, const UINT height)
 {
-	width_ = width;
-	height_ = height;
-	device_->Resize(width_, height_);
-	keyboardReflection_ = std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
-		device_->GetDepthBuffer(), width_, height_, true);
-	pianoDesk_ = std::make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
-		device_->GetDepthBuffer(), width_, height_);
+	data_->Resize(width, height);
 }
 
 void Render_pimpl::Draw() const
 {
-	keyboardReflection_->SetTargetBuffer(device_->GetContext(), device_->GetDepthView());
-	keyboardReflection_->BeginFrame(device_->GetContext(), device_->GetDepthView(), Black.v);
-	shader_->UpdateLights(false);
-	DrawScene(camera_->GetMirrowedViewMatrix());
+	using DirectX::Colors::SteelBlue;
 
-	pianoDesk_->SetTargetBuffer(device_->GetContext(), device_->GetDepthView());
-	pianoDesk_->BeginFrame(device_->GetContext(), device_->GetDepthView(), SteelBlue.v);
-	shader_->UpdateLights(true);
-	shader_->Apply(device_->GetDevice(), device_->GetContext());
-	geometry_->DrawDesk(device_->GetDevice(), device_->GetContext(),
-		camera_->GetViewMatrix(), device_->GetProjection(), shader_->GetDeskTexture());
+	data_->BeginKeyboardReflectionBuffer();
+	DrawScene(true);
 
-	device_->Mode2D();
-	device_->SetTargetBuffer();
-	shader_->UpdateProjection(device_->GetOrthographic());
-	shader_->UpdateWorldView(Matrix::Identity,
-		Matrix::CreateLookAt(Vector3::Backward, Vector3::Zero, Vector3::Up));
+	data_->DrawPianoDeskBuffer();
 
-	Frame frame(device_, SteelBlue.v);
+	data_->Begin2D();
+	Frame frame(data_->GetDevice(), SteelBlue.v);
+	data_->DrawPianoDesk();
 
-	shader_->UpdateTexture(keyboardReflection_->GetTexture(device_->GetContext()));
-	shader_->Apply(device_->GetDevice(), device_->GetContext());
-	keyboardReflection_->Draw();
+	DrawScene();
 
-	shader_->UpdateTexture(pianoDesk_->GetTexture(device_->GetContext()));
-	shader_->Apply(device_->GetDevice(), device_->GetContext());
-	device_->AlfaBlendingOn();
-	pianoDesk_->Draw();
-	device_->AlfaBlendingOff();
+	data_->DrawDebugInfo();
 
-	DrawScene(camera_->GetViewMatrix());
 
-	DrawDebugInfo();
+	data_->ReturnPressedKeys();
 }
 
-void Render_pimpl::DrawScene(const Matrix& view) const
+void Render_pimpl::DrawScene(const bool mirrowed) const
 {
-	device_->Mode3D();
-	shader_->UpdateTexture();
-	shader_->UpdateProjection(device_->GetProjection());
-	for (auto i(0); i < 88; ++i)
-	{
-		shader_->UpdateWorldView(geometry_->GetWorldMatrix(i), view);
-		shader_->Apply(device_->GetDevice(), device_->GetContext());
-		geometry_->DrawKeyboard(i, std::string(static_cast<size_t>(i % 3), static_cast<char>('0' + i % 6)));
-	}
+	data_->SwitchTo3D();
+	for (int16_t i(0); i < 88; ++i)
+		data_->DrawPianoKey(i, mirrowed);
 }
 
-void Render_pimpl::DrawDebugInfo() const
+
+void Render_pimpl::PressKey(const int16_t note) const
 {
-	using boost::wformat;
+	data_->PressKey(note);
+}
 
-	static auto startTime(GetTickCount() - 1), frames(0ul), fps(0ul);
-	++frames;
+void Render_pimpl::AssignFingerNums(const int16_t note, const char* fingers, const bool leftHand) const
+{
+	data_->AssignFingerNums(note, fingers, leftHand);
+}
 
-	const auto deltaTime(GetTickCount() - startTime);
-	if (deltaTime > 1'000)
-	{
-		fps = frames * 1'000 / deltaTime;
-		startTime += 1'000;
-		frames = 0;
-	}
-
-	const auto text((wformat{ TEXT("FPS = %1%\nX = %2%\nY = %3%\nZ = %4%") }
-	% fps % camera_->GetPosition().x % camera_->GetPosition().y % camera_->GetPosition().z).str());
-	text_->Draw(text.c_str(), static_cast<float>(width_ - 150), 5.f, Color(fps > 50 ? Green.v : Red.v));
+void Render_pimpl::ReleaseAllKeys() const
+{
+	data_->ReleaseAllKeys();
 }

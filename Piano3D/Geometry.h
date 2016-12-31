@@ -8,7 +8,9 @@ public:
 	~Geometry();
 
 	DirectX::SimpleMath::Matrix GetWorldMatrix(int note) const;
-	void DrawKeyboard(int note, const std::string& fingerNumbers = "");
+	DirectX::SimpleMath::Matrix GetRotatedMatrix(int note, float pressedKeyAngle) const;
+
+	void DrawKey(int note, bool highlighted, const char* fingers);
 	void DrawDesk(ID3D11Device* device, ID3D11DeviceContext* context,
 		const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection,
 		ID3D11ShaderResourceView* texture) const
@@ -31,5 +33,9 @@ private:
 	const std::unique_ptr<class Mesh> mesh_;
 	const std::unique_ptr<DirectX::GeometricPrimitive> pianoDesk_;
 	std::shared_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionNormalColorTexture>> batch_;
-	std::vector<DirectX::VertexPositionNormalColorTexture> whiteMiddle_, whiteLeft_, whiteRight_, black_;
+	std::vector<DirectX::VertexPositionNormalColorTexture> whiteMiddle_, whiteLeft_, whiteRight_, black_,
+		greyMiddle_, greyLeft_, greyRight_, grey_;
+
+	bool keyIsGrey_;
+	const BYTE padding_[3] = { '\0' };
 };

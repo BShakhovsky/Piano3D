@@ -9,17 +9,12 @@ public:
 
 	void Resize(UINT width, UINT height);
 	void Draw() const;
+
+	void PressKey(int16_t) const;
+	void AssignFingerNums(int16_t, const char*, bool leftHand = false) const;
+	void ReleaseAllKeys() const;
 private:
-	void DrawScene(const DirectX::SimpleMath::Matrix& view) const;
-	void DrawDebugInfo() const;
+	void DrawScene(bool mirrowed = false) const;
 
-	UINT width_, height_;
-
-	std::shared_ptr<class Device> device_;
-	const std::unique_ptr<class Camera> camera_;
-	const std::unique_ptr<class Shader> shader_;
-	const std::unique_ptr<class Geometry> geometry_;
-	const std::unique_ptr<class Text> text_;
-
-	std::unique_ptr<class BackBuffer2D> pianoDesk_, keyboardReflection_;
+	const std::unique_ptr<class RenderData> data_;
 };
