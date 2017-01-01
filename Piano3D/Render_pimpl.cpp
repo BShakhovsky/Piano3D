@@ -5,8 +5,9 @@
 
 using std::make_unique;
 
-Render_pimpl::Render_pimpl(const HWND hWnd, const UINT width, const UINT height)
-	: data_(make_unique<RenderData>(hWnd, width, height))
+Render_pimpl::Render_pimpl(const HWND hWnd, const UINT width, const UINT height,
+	const float cameraX, const float cameraY, const float cameraZ, LPCTSTR path)
+	: data_(make_unique<RenderData>(hWnd, width, height, cameraX, cameraY, cameraZ, path))
 {
 	Resize(width, height);
 	data_->RotateCamera(-40, 0, 0);

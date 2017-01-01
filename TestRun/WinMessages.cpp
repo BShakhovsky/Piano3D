@@ -26,11 +26,14 @@ void CALLBACK OnTimer(const HWND, UINT, UINT_PTR, const DWORD dwTime)
 {
 	static const auto start(dwTime);
 
-	if (!((dwTime - start) / 200 % 10)) WinClass::render->ReleaseAllKeys();
-	WinClass::render->PressKey(rand() % 88);
-	WinClass::render->AssignFingerNums(rand() % 88,
-		string(static_cast<size_t>(rand() % 3), static_cast<char>('0' + rand() % 6)).c_str(),
-		rand() % 2 == 0);
+	if (WinClass::render)
+	{
+		if (!((dwTime - start) / 200 % 10)) WinClass::render->ReleaseAllKeys();
+		WinClass::render->PressKey(rand() % 88);
+		WinClass::render->AssignFingerNums(rand() % 88,
+			string(static_cast<size_t>(rand() % 3), static_cast<char>('0' + rand() % 6)).c_str(),
+			rand() % 2 == 0);
+	}
 }
 
 inline BOOL WinMessages::OnCreate(const HWND hWnd, LPCREATESTRUCT)

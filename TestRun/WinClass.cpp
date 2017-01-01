@@ -29,9 +29,13 @@ ATOM WinClass::MyRegisterClass() const
 int WinClass::Main(const int nCmdShow) const
 {
 	if (!InitInstance(nCmdShow)) return FALSE;
+
+	TCHAR path[MAX_PATH];
+	GetCurrentDirectory(ARRAYSIZE(path), path);
 	try
 	{
-		render = make_shared<Render>(hWnd, WinMessages::width, WinMessages::height);
+		render = make_shared<Render>(hWnd, WinMessages::width, WinMessages::height,
+			26.0f, 25.0f, 30.0f, path);
 	}
 	catch (const DxError& e)
 	{
@@ -63,7 +67,7 @@ int WinClass::Main(const int nCmdShow) const
 #ifdef _DEBUG
 		const auto after(VLDGetLeaksCount());
 #endif
-	assert("Memory leaks detected" && before + 3 == after);
+	assert("Memory leaks detected" && before == after || before + 3 == after);
 
 	return static_cast<int>(msg.wParam);
 }

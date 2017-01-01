@@ -82,8 +82,11 @@ void KeyStates::ReturnPressedKeys() const
 	static DWORD startTime(GetTickCount());
 
 	for (const auto& key : keys_)
-		if (key->angle > 0)	key->angle -= key->delta * (GetTickCount() - startTime);
-		else				key->angle = key->delta = 0;
+	{
+		const auto delta(key->delta * (GetTickCount() - startTime));
+		if (key->angle > key->delta * (GetTickCount() - startTime)) key->angle -= delta;
+		else key->angle = key->delta = 0;
+	}
 
 	startTime = GetTickCount();
 }

@@ -15,14 +15,15 @@ using namespace std;
 using namespace DirectX::SimpleMath;
 using namespace DirectX::Colors;
 
-RenderData::RenderData(const HWND hWnd, const UINT width, const UINT height)
+RenderData::RenderData(const HWND hWnd, const UINT width, const UINT height,
+	const float cameraX, const float cameraY, const float cameraZ, LPCTSTR path)
 	: width_(width), height_(height),
 
 	device_(make_shared<Device>(hWnd, width_, height_)),
-	camera_(make_unique<Camera>(26.0f, 25.0f, 30.0f)),
+	camera_(make_unique<Camera>(cameraX, cameraY, cameraZ)),
 	shader_(make_unique<Shader>(device_->GetDevice())),
 	geometry_(make_unique<Geometry>(device_->GetContext())),
-	text_(make_unique<Text>(device_->GetDevice(), device_->GetContext())),
+	text_(make_unique<Text>(device_->GetDevice(), device_->GetContext(), path)),
 
 	pianoDesk_(make_unique<BackBuffer2D>(device_->GetDevice(), device_->GetContext(),
 		device_->GetDepthBuffer(), width_, height_)),

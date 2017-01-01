@@ -5,7 +5,8 @@ class Render
 {
 	Render() = delete;
 public:
-	explicit Render(HWND, UINT width, UINT height);
+	explicit Render(HWND, UINT width, UINT height,
+		float cameraX, float cameraY, float cameraZ, LPCTSTR path);
 	~Render();
 
 	void Resize(UINT width, UINT height) const;

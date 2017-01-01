@@ -4,7 +4,8 @@ class Render_pimpl : boost::noncopyable
 {
 	Render_pimpl() = delete;
 public:
-	explicit Render_pimpl(HWND, UINT width, UINT height);
+	explicit Render_pimpl(HWND, UINT width, UINT height,
+		float cameraX, float cameraY, float cameraZ, LPCTSTR path);
 	~Render_pimpl();
 
 	void Resize(UINT width, UINT height);

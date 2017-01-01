@@ -3,7 +3,8 @@ class RenderData : boost::noncopyable
 {
 	RenderData() = delete;
 public:
-	explicit RenderData(HWND hWnd, UINT width, UINT height);
+	explicit RenderData(HWND hWnd, UINT width, UINT height,
+		float cameraX, float cameraY, float cameraZ, LPCTSTR path);
 	~RenderData();
 
 	const std::shared_ptr<class Device>& GetDevice() const;

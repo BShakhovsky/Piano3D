@@ -7,8 +7,9 @@ using std::make_unique;
 #pragma warning(push)
 #pragma warning(disable:4711)
 
-Render::Render(const HWND hWnd, const UINT width, const UINT height)
-	: pimpl_(new Render_pimpl(hWnd, width, height))
+Render::Render(const HWND hWnd, const UINT width, const UINT height,
+	const float cameraX, const float cameraY, const float cameraZ, LPCTSTR path)
+	: pimpl_(new Render_pimpl(hWnd, width, height, cameraX, cameraY, cameraZ, path))
 {}
 
 Render::~Render()
