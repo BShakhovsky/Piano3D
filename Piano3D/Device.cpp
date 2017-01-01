@@ -16,9 +16,14 @@ Device::Device(const HWND hWnd, const UINT width, const UINT height)
 		)));
 	DXGI_SWAP_CHAIN_DESC chainDesc{ { width, height,{ 1 }, BACK_BUFFER_FORMAT },{ 4 },
 		DXGI_USAGE_RENDER_TARGET_OUTPUT, 1, hWnd, TRUE, DXGI_SWAP_EFFECT_DISCARD, BACK_BUFFER_FLAGS };
-	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, chainDesc.Flags,
-		nullptr, 0, D3D11_SDK_VERSION, &chainDesc, &chain_, &device_, nullptr, &context_)))
-			throw DxError("Could not initialize DirectX");
+
+	D3D_DRIVER_TYPE driverTypes[]
+		= { D3D_DRIVER_TYPE_HARDWARE, D3D_DRIVER_TYPE_WARP, D3D_DRIVER_TYPE_REFERENCE };
+	for (const auto& driver : driverTypes)
+		if (SUCCEEDED(D3D11CreateDeviceAndSwapChain(nullptr, driver, nullptr, chainDesc.Flags,
+			nullptr, 0, D3D11_SDK_VERSION, &chainDesc, &chain_, &device_, nullptr, &context_)))
+				break;
+	if (!device_) throw DxError("Could not initialize DirectX");
 
 #ifdef _DEBUG
 	ComPtr<ID3D11Debug> debug;
