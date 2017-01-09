@@ -26,21 +26,21 @@ BackBuffer2D::BackBuffer2D(ID3D11Device* device, ID3D11DeviceContext* context, I
 	depthBuffer->GetDesc(&textureDesc);
 	textureDesc.Format = BACK_BUFFER_FORMAT;
 	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	if (FAILED(device->CreateTexture2D(&textureDesc, nullptr, &textureMS_)))
-		throw DxError("Could not create DirectX multi-sampled back-buffer texture");
+	DxError::ThrowIfFailed(device->CreateTexture2D(&textureDesc, nullptr, &textureMS_),
+		TEXT("Could not create DirectX multi-sampled back-buffer texture"));
 	textureDesc = CD3D11_TEXTURE2D_DESC(BACK_BUFFER_FORMAT, textureDesc.Width, textureDesc.Height);
 	textureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
-	if (FAILED(device->CreateTexture2D(&textureDesc, nullptr, &textureSS_)))
-		throw DxError("Could not create DirectX single-sampled back-buffer texture");
+	DxError::ThrowIfFailed(device->CreateTexture2D(&textureDesc, nullptr, &textureSS_),
+		TEXT("Could not create DirectX single-sampled back-buffer texture"));
 
 	D3D11_RENDER_TARGET_VIEW_DESC backBufferDesc{ BACK_BUFFER_FORMAT, D3D11_RTV_DIMENSION_TEXTURE2DMS };
-	if (FAILED(device->CreateRenderTargetView(textureMS_.Get(), &backBufferDesc, &backBuffer_)))
-		throw DxError("Could not create DirectX multi-sampled back-buffer");
+	DxError::ThrowIfFailed(device->CreateRenderTargetView(textureMS_.Get(), &backBufferDesc, &backBuffer_),
+		TEXT("Could not create DirectX multi-sampled back-buffer"));
 
 	CD3D11_SHADER_RESOURCE_VIEW_DESC resourceDesc(D3D11_SRV_DIMENSION_TEXTURE2DMS, BACK_BUFFER_FORMAT);
-	if (FAILED(device->CreateShaderResourceView(textureMS_.Get(), &resourceDesc, &shaderResourceMS_)))
-		throw DxError("Could not create DirectX multi-sampled shader resource view");
+	DxError::ThrowIfFailed(device->CreateShaderResourceView(textureMS_.Get(), &resourceDesc, &shaderResourceMS_),
+		TEXT("Could not create DirectX multi-sampled shader resource view"));
 	resourceDesc = CD3D11_SHADER_RESOURCE_VIEW_DESC(D3D11_SRV_DIMENSION_TEXTURE2D, BACK_BUFFER_FORMAT);
-	if (FAILED(device->CreateShaderResourceView(textureSS_.Get(), &resourceDesc, &shaderResourceSS_)))
-		throw DxError("Could not create DirectX single-sampled shader resource view");
+	DxError::ThrowIfFailed(device->CreateShaderResourceView(textureSS_.Get(), &resourceDesc, &shaderResourceSS_),
+		TEXT("Could not create DirectX single-sampled shader resource view"));
 }

@@ -39,7 +39,7 @@ int WinClass::Main(const int nCmdShow) const
 	}
 	catch (const DxError& e)
 	{
-		MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 
 	const auto hAccelTable(LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_PIANO3D)));
@@ -61,7 +61,7 @@ int WinClass::Main(const int nCmdShow) const
 		}
 		catch (const DxError& e)
 		{
-			MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
+			MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 		}
 
 #ifdef _DEBUG

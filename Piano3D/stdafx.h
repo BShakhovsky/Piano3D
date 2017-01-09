@@ -5,9 +5,10 @@
 
 #include "targetver.h"
 
+#include <comdef.h>
 #include <wrl\client.h>
-#include <DirectXColors.h>
 
+#include <DirectXColors.h>
 #include <d3d11_1.h>
 
 #include <DirectXTK\SimpleMath.h>

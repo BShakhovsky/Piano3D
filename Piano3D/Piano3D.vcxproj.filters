@@ -131,6 +131,9 @@
     <ClCompile Include="KeyStates.cpp">
       <Filter>Source Files\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DxError.cpp">
+      <Filter>Source Files\DirectX\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Desk.png">

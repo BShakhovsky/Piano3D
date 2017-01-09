@@ -10,6 +10,10 @@ public:
 		up_(DirectX::SimpleMath::Vector3::Up)
 	{}
 
+	const DirectX::SimpleMath::Vector3& GetPosition() const
+	{
+		return position_;
+	}
 	DirectX::SimpleMath::Matrix GetViewMatrix() const
 	{
 		return std::move(DirectX::SimpleMath::Matrix::CreateLookAt(position_, focus_, up_));
@@ -20,13 +24,6 @@ public:
 			DirectX::SimpleMath::Vector3(position_.x, position_.y, -position_.z),
 			DirectX::SimpleMath::Vector3(focus_.x, focus_.y, -focus_.z), up_));
 	}
-
-	///////////////////////////////////////////////////////
-	const DirectX::SimpleMath::Vector3& GetPosition() const
-	{
-		return position_;
-	}
-	///////////////////////////////////////////////////////
 
 	void Rotate(float xPitch, float yYaw, float zRoll);
 private:

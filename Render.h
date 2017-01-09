@@ -1,5 +1,5 @@
 #pragma once
-#pragma comment(lib, "Piano3D.lib")
+#pragma comment(lib, "Piano3D")
 
 class Render
 {

@@ -99,11 +99,11 @@ void Device::Resize(UINT width, UINT height)
 	depthView_.Reset();
 	context_->Flush();
 
-	if (FAILED(chain_->ResizeBuffers(1, width, height, BACK_BUFFER_FORMAT, BACK_BUFFER_FLAGS)))
-													throw DxError("Could not resize DirectX swap chain");
-	if (FAILED(CreateBackBuffer()))					throw DxError("Could not create DirectX back-buffer");
-	if (FAILED(CreateDepthBuffer(width, height)))	throw DxError("Could not create DirectX depth buffer");
-	if (FAILED(SetAntiAliasingMode()))				throw DxError("Could not create DirectX anti-aliasing mode");
+	DxError::ThrowIfFailed(chain_->ResizeBuffers(1, width, height, BACK_BUFFER_FORMAT, BACK_BUFFER_FLAGS),
+															TEXT("Could not resize DirectX swap chain"));
+	DxError::ThrowIfFailed(CreateBackBuffer(),				TEXT("Could not create DirectX back-buffer"));
+	DxError::ThrowIfFailed(CreateDepthBuffer(width, height),TEXT("Could not create DirectX depth buffer"));
+	DxError::ThrowIfFailed(SetAntiAliasingMode(),		TEXT("Could not create DirectX anti-aliasing mode"));
 
 	SetTargetBuffer();
 	SetViewPort(width, height);

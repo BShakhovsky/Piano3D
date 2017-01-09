@@ -90,12 +90,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir); $(SolutionDir)..\..\..\Libs\Boost; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir); $(CppLibs)Boost; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Visual Leak Detector\lib\$(Platform);$(SolutionDir)Piano3D\$(Configuration);$(SolutionDir)..\..\..\Libs\DirectXTK\$(Configuration);$(SolutionDir)..\..\..\Libs\DirectXMesh\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Piano3D\$(Configuration);$(CppLibs)DirectXTK\$(Configuration);$(CppLibs)DirectXMesh\$(Configuration);C:\Program Files (x86)\Visual Leak Detector\lib\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(SolutionDir)Piano3D\$(Configuration)\Piano3D.res; %(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyLinkResource>
       </AssemblyLinkResource>
@@ -129,14 +129,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir); $(SolutionDir)..\..\..\Libs\Boost; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir); $(CppLibs)Boost; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Visual Leak Detector\lib\$(Platform);$(SolutionDir)Piano3D\$(Configuration);$(SolutionDir)..\..\..\Libs\DirectXTK\$(Configuration);$(SolutionDir)..\..\..\Libs\DirectXMesh\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Piano3D\$(Configuration);$(CppLibs)DirectXTK\$(Configuration);$(CppLibs)DirectXMesh\$(Configuration);C:\Program Files (x86)\Visual Leak Detector\lib\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(SolutionDir)Piano3D\$(Configuration)\Piano3D.res; %(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyLinkResource>
       </AssemblyLinkResource>

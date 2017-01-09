@@ -55,7 +55,7 @@ void WinMessages::OnSize(const HWND hWnd, const UINT, const int cx, const int cy
 	}
 	catch (const DxError& e)
 	{
-		MessageBoxA(hWnd, e.what(), "DirectX Error", MB_OK | MB_ICONHAND);
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 }
 inline void OnCommand(HWND hWnd, int id, HWND, UINT)
