@@ -10,10 +10,14 @@ public:
 	
 	virtual ~DxError() throw() override final = default;
 	
+#pragma warning(push)
+#pragma warning(disable:4514)	// unreferenced inline function has been removed
 	virtual const char* what() const override final
 	{
 		return msg_.c_str();
 	}
+#pragma warning(pop)
+
 #ifdef UNICODE
 	const wchar_t* RusWhat() const
 	{
