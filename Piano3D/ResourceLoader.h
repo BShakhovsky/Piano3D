@@ -7,9 +7,12 @@ public:
 	explicit ResourceLoader(int resourceID, LPCTSTR resourceType)
 	{
 		const auto hResource(FindResource(GetModuleHandle(nullptr), MAKEINTRESOURCE(resourceID), resourceType));
-		hMemory_ = LoadResource(GetModuleHandle(nullptr), hResource);
-		data_ = LockResource(hMemory_);
-		size_ = SizeofResource(GetModuleHandle(nullptr), hResource);
+		if (hResource)
+		{
+			hMemory_ = LoadResource(GetModuleHandle(nullptr), hResource);
+			if (hMemory_) data_ = LockResource(hMemory_);
+			size_ = SizeofResource(GetModuleHandle(nullptr), hResource);
+		}
 		assert("Could not find resource" && hResource && hMemory_ && data_ && size_);
 	}
 	~ResourceLoader()

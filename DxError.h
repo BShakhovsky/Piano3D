@@ -1,37 +1,24 @@
 #pragma once
+#include "RusError.h"
 
-class DxError : public std::exception
+class DxError : public RusError
 {
-	static const std::string defMsg_;
-	static const std::wstring defRusMsg_;
 public:
-	explicit DxError(const char* msg = nullptr);
-	explicit DxError(const wchar_t* rusMsg = nullptr);
-	
-	virtual ~DxError() throw() override final = default;
-	
 #pragma warning(push)
 #pragma warning(disable:4514)	// unreferenced inline function has been removed
-	virtual const char* what() const override final
-	{
-		return msg_.c_str();
-	}
+	DxError() = default;
+	explicit DxError(const char* msg) : RusError(msg) {};
+	explicit DxError(const wchar_t* rusMsg) : RusError(rusMsg) {};
 #pragma warning(pop)
-
-#ifdef UNICODE
-	const wchar_t* RusWhat() const
+	virtual ~DxError() throw() override /* not final */ = default;
+	
+	template<class ErrorClass>
+	static void ThrowIfFailed(HRESULT hResult, LPCTSTR msg = defRusMsg_)
 	{
-		return rusMsg_.c_str();
+		if (FAILED(hResult)) throw ErrorClass((std::wstring(msg) + TEXT(".\n")
+			+ _com_error(hResult).ErrorMessage()).c_str());
 	}
-#else
-	const char* RusWhat() const
-	{
-		return what();
-	}
-#endif
-
-	static void ThrowIfFailed(HRESULT, LPCTSTR msg = nullptr);
-private:
-	std::string msg_;
-	std::wstring rusMsg_;
 };
+
+#define THROW_IF_FAILED(ERROR_CLASS, H_RES, MESG) \
+	ERROR_CLASS::ThrowIfFailed<ERROR_CLASS>((H_RES), TEXT(MESG))

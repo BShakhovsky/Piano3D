@@ -31,6 +31,24 @@
     <Filter Include="Source Files\DirectX\Utilities">
       <UniqueIdentifier>{84ac0008-9d3b-4b63-a111-1b9f3a5a9e8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\DirectX\Device">
+      <UniqueIdentifier>{6a4ebf9a-6f92-44a1-8a87-cd7f1b6579e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DirectX\Geometry">
+      <UniqueIdentifier>{c5104e9e-aeb3-40aa-bd27-5811d937b558}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DirectX\Device">
+      <UniqueIdentifier>{06e912c2-4b83-40fc-9bed-7df5aa51aa63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DirectX\Geometry">
+      <UniqueIdentifier>{1a005d98-3824-4b72-9deb-702da05d031b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DirectX\Additional">
+      <UniqueIdentifier>{eb24c5ce-1ead-43ae-b8a3-269af3327555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DirectX\Additional">
+      <UniqueIdentifier>{9b90b96d-6cb7-46e1-86a7-296a68a33c6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceLoader.h">
@@ -41,27 +59,6 @@
     </ClInclude>
     <ClInclude Include="Frame.h">
       <Filter>Header Files\DirectX\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="BackBuffer2D.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Device.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
@@ -78,61 +75,82 @@
     <ClInclude Include="..\Render.h">
       <Filter>Header Files\Exported</Filter>
     </ClInclude>
-    <ClInclude Include="Render_pimpl.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderData.h">
-      <Filter>Header Files\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="FramesPerSec.h">
       <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="BackBuffer2D.h">
+      <Filter>Header Files\DirectX\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Header Files\DirectX\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header Files\DirectX\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\DirectX\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Render_pimpl.h">
+      <Filter>Header Files\DirectX\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderData.h">
+      <Filter>Header Files\DirectX\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\DirectX\Device</Filter>
+    </ClInclude>
     <ClInclude Include="KeyStates.h">
-      <Filter>Header Files\DirectX</Filter>
+      <Filter>Header Files\DirectX\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\DirectX\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\DirectX\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RusError.h">
+      <Filter>Header Files\Exported</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Text.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="BackBuffer2D.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Render_pimpl.cpp">
-      <Filter>Source Files\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderData.cpp">
-      <Filter>Source Files\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="FramesPerSec.cpp">
       <Filter>Source Files\DirectX\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="KeyStates.cpp">
-      <Filter>Source Files\DirectX</Filter>
+    <ClCompile Include="BackBuffer2D.cpp">
+      <Filter>Source Files\DirectX\Device</Filter>
     </ClCompile>
-    <ClCompile Include="DxError.cpp">
-      <Filter>Source Files\DirectX\Utilities</Filter>
+    <ClCompile Include="Device.cpp">
+      <Filter>Source Files\DirectX\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Source Files\DirectX\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyStates.cpp">
+      <Filter>Source Files\DirectX\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\DirectX\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\DirectX\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Render_pimpl.cpp">
+      <Filter>Source Files\DirectX\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderData.cpp">
+      <Filter>Source Files\DirectX\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\DirectX\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\DirectX\Additional</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\DirectX\Additional</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

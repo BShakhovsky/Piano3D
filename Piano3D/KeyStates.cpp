@@ -83,10 +83,13 @@ void KeyStates::ReturnPressedKeys() const
 
 	for (const auto& key : keys_)
 	{
+// Consider using 'GetTickCount64' : GetTickCount overflows every 49 days, and code can loop indefinitely
+#pragma warning(suppress:28159)
 		const auto delta(key->delta * (GetTickCount() - startTime));
+#pragma warning(suppress:28159)
 		if (key->angle > key->delta * (GetTickCount() - startTime)) key->angle -= delta;
 		else key->angle = key->delta = 0;
 	}
-
+#pragma warning(suppress:28159)
 	startTime = GetTickCount();
 }

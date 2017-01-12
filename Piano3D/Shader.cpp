@@ -17,18 +17,18 @@ Shader::Shader(ID3D11Device* device)
 	effect_->SetTextureEnabled(true);
 
 	ResourceLoader resourceDesk(IDB_DESK, TEXT("PNG"));
-	DxError::ThrowIfFailed(CreateWICTextureFromMemory(device,
+	THROW_IF_FAILED(DxError, CreateWICTextureFromMemory(device,
 		static_cast<const BYTE*>(resourceDesk.Data()), resourceDesk.Size(),
-		nullptr, &textureDesk_), TEXT("Could not create DirectX texture-resource"));
+		nullptr, &textureDesk_), "Could not create DirectX texture-resource");
 
 	ResourceLoader resourceLeft(IDB_LEFT, TEXT("PNG"));
-	DxError::ThrowIfFailed(CreateWICTextureFromMemory(device,
+	THROW_IF_FAILED(DxError, CreateWICTextureFromMemory(device,
 		static_cast<const BYTE*>(resourceLeft.Data()), resourceLeft.Size(),
-		nullptr, &textureFingersLeft_), TEXT("Could not create DirectX texture-resource"));
+		nullptr, &textureFingersLeft_), "Could not create DirectX texture-resource");
 	ResourceLoader resourceRight(IDB_RIGHT, TEXT("PNG"));
-	DxError::ThrowIfFailed(CreateWICTextureFromMemory(device,
+	THROW_IF_FAILED(DxError, CreateWICTextureFromMemory(device,
 		static_cast<const BYTE*>(resourceRight.Data()), resourceRight.Size(),
-		nullptr, &textureFingersRight_), TEXT("Could not create DirectX texture-resource"));
+		nullptr, &textureFingersRight_), "Could not create DirectX texture-resource");
 
 	sampler_ = CommonStates(device).LinearWrap();
 }
@@ -40,9 +40,9 @@ void Shader::Apply(ID3D11Device* device, ID3D11DeviceContext* context)
 	const void* shaderCode;
 	size_t shaderLength;
 	effect_->GetVertexShaderBytecode(&shaderCode, &shaderLength);
-	DxError::ThrowIfFailed(device->CreateInputLayout(VertexPositionNormalColorTexture::InputElements,
-			VertexPositionNormalColorTexture::InputElementCount, shaderCode, shaderLength, &layout_),
-		TEXT("Could not create DirectX shaders"));
+	THROW_IF_FAILED(DxError, device->CreateInputLayout(VertexPositionNormalColorTexture::InputElements,
+		VertexPositionNormalColorTexture::InputElementCount, shaderCode, shaderLength, &layout_),
+		"Could not create DirectX shaders");
 	context->IASetInputLayout(layout_.Get());
 
 	context->PSSetSamplers(0, 1, sampler_.GetAddressOf());
