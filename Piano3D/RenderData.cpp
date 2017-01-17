@@ -64,13 +64,13 @@ void RenderData::SwitchTo3D() const
 	shader_->UpdateProjection(device_->GetProjection());
 }
 
-bool RenderData::Zoom(const bool decrease) const
+bool RenderData::Zoom(const bool increase) const
 {
-	return camera_->Zoom(decrease);
+	return camera_->Zoom(increase);
 }
 bool RenderData::FitToWindow() const
 {
-	return camera_->FitToWindow();
+	return camera_->FitToWindow(device_->GetProjection());
 }
 void RenderData::MoveStart(const int screenX, const int screenY) const
 {

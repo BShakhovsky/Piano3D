@@ -38,9 +38,9 @@ void Render::ReleaseAllKeys() const
 	pimpl_->ReleaseAllKeys();
 }
 
-bool Render::Zoom(const bool decrease) const
+bool Render::Zoom(const bool increase) const
 {
-	return pimpl_->Zoom(decrease);
+	return pimpl_->Zoom(increase);
 }
 bool Render::FitToWindow() const
 {

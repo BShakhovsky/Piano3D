@@ -3,6 +3,8 @@
 class Mesh : boost::noncopyable
 {
 public:
+	static constexpr float WHITE_LENGTH = 8.0f;
+
 	Mesh();
 
 	const std::vector<DirectX::SimpleMath::Vector3>& GetWhiteMiddlePositions() const

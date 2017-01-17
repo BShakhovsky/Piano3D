@@ -77,7 +77,7 @@ void OnMouseWheel(HWND hWnd, int, int, int delta, UINT)
 	{
 		for (auto i(0); i < abs(delta) / WHEEL_DELTA * 5; ++i)
 		{
-			if (!WinClass::render->Zoom(delta < 0)) break;
+			if (!WinClass::render->Zoom(delta > 0)) break;
 			WinClass::render->Draw();
 		}
 	}

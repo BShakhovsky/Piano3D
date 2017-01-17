@@ -12,7 +12,7 @@ public:
 	void Begin2D() const;
 	void SwitchTo3D() const;
 
-	bool Zoom(bool decrease) const;
+	bool Zoom(bool increase) const;
 	bool FitToWindow() const;
 	void MoveStart(int screenX, int screenY) const;
 	void MoveEnd(int screenX, int screenY) const;

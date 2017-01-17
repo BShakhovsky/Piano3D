@@ -14,7 +14,7 @@ shared_ptr<Render> WinClass::render = nullptr;
 ATOM WinClass::MyRegisterClass() const
 {
 	WNDCLASSEXW wcex{ sizeof wcex };
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	wcex.lpfnWndProc = WinMessages::Main;
 	wcex.hInstance = hInstance;
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_PIANO3D));

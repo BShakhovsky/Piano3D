@@ -15,7 +15,7 @@ public:
 	void AssignFingerNums(int16_t, const char*, bool leftHand = false) const;
 	void ReleaseAllKeys() const;
 
-	bool Zoom(bool decrease) const;
+	bool Zoom(bool increase) const;
 	bool FitToWindow() const;
 	void MoveStart(int screenX, int screenY) const;
 	void MoveEnd(int screenX, int screenY) const;

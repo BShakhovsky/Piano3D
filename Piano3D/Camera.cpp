@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "Camera.h"
+#include "Geometry.h"
 
 using namespace std;
 using namespace DirectX;
 using namespace SimpleMath;
-
-const float
-Camera::deltaZoom_ = 0.1f, Camera::deltaMove_ = 1.0f, Camera::deltaRotate_ = 1.0f,
-Camera::minGap_ = 2.0f, Camera::maxDistance_ = 300.0f;
 
 Camera::Camera(const float positionX, const float positionY, const float positionZ)
 	: position_(positionX, positionY, positionZ),
@@ -24,16 +21,33 @@ Camera::Camera(const float positionX, const float positionY, const float positio
 	CalcFocus();
 }
 
-bool Camera::Zoom(const bool decrease)
+bool Camera::Zoom(const bool increase, const bool precise)
 {
-	const auto pos(position_ + (focus_ - position_) * deltaZoom_ * (decrease ? -1.0f : 1.0f));
+	const auto pos(position_ + (focus_ - position_) * deltaZoom_
+		* (increase ? 1.0f : -1.0f) * (precise ? 0.1f : 1.0f));
 	if (min({ pos.x, pos.y, pos.z }) < minGap_ || max({ pos.x, pos.y, pos.z }) > maxDistance_) return false;
 	position_ = pos;
 	return true;
 }
-bool Camera::FitToWindow()
+bool Camera::FitToWindow(const Matrix& projection)
 {
-	return false;
+	if (IsInsideWindow(projection))
+	{
+		Zoom(true);
+		if (IsInsideWindow(projection)) return false;
+		else while (!IsInsideWindow(projection)) Zoom(false, true);
+	}
+	else
+	{
+		Zoom(false);
+		if (!IsInsideWindow(projection)) return false;
+		else
+		{
+			while (IsInsideWindow(projection)) Zoom(true, true);
+			Zoom(false, true);
+		}
+	}
+	return true;
 }
 
 void Camera::MoveStart(const int screenX, const int screenY)
@@ -71,7 +85,8 @@ void Camera::RotateCamera(const float xPitch, const float yYaw, const float zRol
 void Camera::CalcFocus()
 {
 	assert("Wrong camera position, it may cause division by zero"
-		&& min(position_.y, position_.z) >= Camera::minGap_ && max(direction_.y, direction_.z) <= 0);
+		&& max({ abs(position_.x - Geometry::keyboardLength / 2), position_.y, position_.z }) <= maxDistance_
+		&& min(position_.y, position_.z) >= minGap_ && max(direction_.y, direction_.z) <= 0);
 	const auto
 		deltaX(abs(position_.x) > numeric_limits<float>::epsilon() ? direction_.x / position_.x : 0),
 		deltaY(position_.y > numeric_limits<float>::epsilon() ? direction_.y / position_.y : 0),
@@ -79,5 +94,32 @@ void Camera::CalcFocus()
 	assert("Wrong camera position, it may cause division by zero"
 		&& abs(min({ deltaX, deltaY, deltaZ })) > numeric_limits<float>::epsilon());
 	const auto delta(1.0f / abs(min({ deltaX, deltaY, deltaZ })));
+
 	focus_ = position_ + direction_ * delta;
+}
+bool Camera::IsInsideWindow(const Matrix& projection) const
+{
+	static const Vector3 borderPoint1(0, 0, Geometry::GetKeyboardWidth());
+	auto screenPoint(Vector3::Transform(Vector3::Transform(borderPoint1, GetViewMatrix()), projection));
+	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
+		return false;
+
+	static const Vector3 borderPoint2(Geometry::keyboardLength, 0, Geometry::GetKeyboardWidth());
+	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint2, GetViewMatrix()), projection);
+	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
+		return false;
+
+	static const Vector3 borderPoint3(-(Geometry::deskLength - Geometry::keyboardLength) / 2,
+		Geometry::deskHeight, -Geometry::deskThickness);
+	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint3, GetViewMatrix()), projection);
+	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
+		return false;
+
+	static const Vector3 borderPoint4(Geometry::deskLength - (Geometry::deskLength - Geometry::keyboardLength) / 2,
+		Geometry::deskHeight, -Geometry::deskThickness);
+	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint4, GetViewMatrix()), projection);
+	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
+		return false;
+	
+	return true;
 }

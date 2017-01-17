@@ -11,8 +11,8 @@ Mesh::Mesh()
 	{ 1 * WHITE_WIDTH, 1, 6.5f },
 	{ 0 * WHITE_WIDTH, 1, 6.5f },
 	{ 1 * WHITE_WIDTH, 1, 6.5f },
-	{ 0 * WHITE_WIDTH, 1, 8 },
-	{ 1 * WHITE_WIDTH, 1, 8 },
+	{ 0 * WHITE_WIDTH, 1, WHITE_LENGTH },
+	{ 1 * WHITE_WIDTH, 1, WHITE_LENGTH },
 	
 	{ (0 + WHITE_GAP) * WHITE_WIDTH, 1, 0 },
 	{ (1 - WHITE_GAP) * WHITE_WIDTH, 1, 0 },
@@ -26,8 +26,8 @@ Mesh::Mesh()
 
 	{ 0 * WHITE_WIDTH, 0, 5 },
 	{ 1 * WHITE_WIDTH, 0, 5 },
-	{ 0 * WHITE_WIDTH, 0, 8 },
-	{ 1 * WHITE_WIDTH, 0, 8 }
+	{ 0 * WHITE_WIDTH, 0, WHITE_LENGTH },
+	{ 1 * WHITE_WIDTH, 0, WHITE_LENGTH }
 },
 whiteIndices_
 {

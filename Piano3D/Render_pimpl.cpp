@@ -58,9 +58,9 @@ void Render_pimpl::ReleaseAllKeys() const
 	data_->ReleaseAllKeys();
 }
 
-bool Render_pimpl::Zoom(const bool decrease) const
+bool Render_pimpl::Zoom(const bool increase) const
 {
-	return data_->Zoom(decrease);
+	return data_->Zoom(increase);
 }
 bool Render_pimpl::FitToWindow() const
 {
