@@ -71,6 +71,67 @@ inline void OnDestroy(HWND)
 	PostQuitMessage(0);
 }
 
+void OnMouseWheel(HWND hWnd, int, int, int delta, UINT)
+{
+	if (WinClass::render) try
+	{
+		for (auto i(0); i < abs(delta) / WHEEL_DELTA * 5; ++i)
+		{
+			if (!WinClass::render->Zoom(delta < 0)) break;
+			WinClass::render->Draw();
+		}
+	}
+	catch (const DxError& e)
+	{
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
+	}
+}
+void OnMButtonDblClick(HWND hWnd, BOOL, int, int, UINT)
+{
+	if (WinClass::render) try
+	{
+		while (!WinClass::render->FitToWindow()) WinClass::render->Draw();
+	}
+	catch (const DxError& e)
+	{
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
+	}
+}
+void OnLButtonDown(HWND hWnd, BOOL, int x, int y, UINT)
+{
+	if (WinClass::render) try
+	{
+		WinClass::render->RotateStart(x, y);
+	}
+	catch (const DxError& e)
+	{
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
+	}
+}
+void OnRButtonDown(HWND hWnd, BOOL, int x, int y, UINT)
+{
+	if (WinClass::render) try
+	{
+		WinClass::render->MoveStart(x, y);
+	}
+	catch (const DxError& e)
+	{
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
+	}
+}
+void OnMouseMove(HWND hWnd, int x, int y, UINT keyFlags)
+{
+	if (WinClass::render) try
+	{
+		if (keyFlags & MK_LBUTTON) WinClass::render->RotateEnd(x, y);
+		if (keyFlags & MK_RBUTTON) WinClass::render->MoveEnd(x, y);
+	}
+	catch (const DxError& e)
+	{
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
+	}
+}
+
 LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WPARAM wParam, const LPARAM lParam)
 {
 	switch (message)
@@ -79,6 +140,13 @@ LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WP
 		HANDLE_MSG(hWnd, WM_SIZE, OnSize);
 		HANDLE_MSG(hWnd, WM_COMMAND, OnCommand);
 		HANDLE_MSG(hWnd, WM_DESTROY, OnDestroy);
+
+		HANDLE_MSG(hWnd, WM_MOUSEWHEEL, OnMouseWheel);
+		HANDLE_MSG(hWnd, WM_MBUTTONDBLCLK, OnMButtonDblClick);
+		HANDLE_MSG(hWnd, WM_LBUTTONDOWN, OnLButtonDown);
+		HANDLE_MSG(hWnd, WM_RBUTTONDOWN, OnRButtonDown);
+		HANDLE_MSG(hWnd, WM_MOUSEMOVE, OnMouseMove);
+
 	default: return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 }

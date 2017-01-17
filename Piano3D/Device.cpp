@@ -83,11 +83,12 @@ HRESULT Device::SetAntiAliasingMode()
 
 void Device::Resize(UINT width, UINT height)
 {
+	using std::max;
 	using DirectX::XMConvertToRadians;
 	using DirectX::SimpleMath::Matrix;
 
-	width = max(width, 1);
-	height = max(height, 1);
+	width = max(width, static_cast<UINT>(1));
+	height = max(height, static_cast<UINT>(1));
 
 	orthographic_ = Matrix::CreateOrthographic(
 		static_cast<float>(width), static_cast<float>(height), SCREEN_NEAR, SCREEN_DEPTH);

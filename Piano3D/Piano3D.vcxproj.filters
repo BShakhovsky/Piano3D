@@ -43,12 +43,6 @@
     <Filter Include="Source Files\DirectX\Geometry">
       <UniqueIdentifier>{1a005d98-3824-4b72-9deb-702da05d031b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\DirectX\Additional">
-      <UniqueIdentifier>{eb24c5ce-1ead-43ae-b8a3-269af3327555}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DirectX\Additional">
-      <UniqueIdentifier>{9b90b96d-6cb7-46e1-86a7-296a68a33c6c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceLoader.h">
@@ -102,14 +96,14 @@
     <ClInclude Include="KeyStates.h">
       <Filter>Header Files\DirectX\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files\DirectX\Additional</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\DirectX\Additional</Filter>
-    </ClInclude>
     <ClInclude Include="..\RusError.h">
       <Filter>Header Files\Exported</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\DirectX\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,10 +141,10 @@
       <Filter>Source Files\DirectX\Device</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
-      <Filter>Source Files\DirectX\Additional</Filter>
+      <Filter>Source Files\DirectX\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\DirectX\Additional</Filter>
+      <Filter>Source Files\DirectX\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

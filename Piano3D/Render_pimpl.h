@@ -14,6 +14,13 @@ public:
 	void PressKey(int16_t) const;
 	void AssignFingerNums(int16_t, const char*, bool leftHand = false) const;
 	void ReleaseAllKeys() const;
+
+	bool Zoom(bool decrease) const;
+	bool FitToWindow() const;
+	void MoveStart(int screenX, int screenY) const;
+	void MoveEnd(int screenX, int screenY) const;
+	void RotateStart(int screenX, int screenY) const;
+	void RotateEnd(int screenX, int screenY) const;
 private:
 	void DrawScene(bool mirrowed = false) const;
 

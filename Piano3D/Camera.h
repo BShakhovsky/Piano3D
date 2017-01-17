@@ -4,11 +4,7 @@ class Camera : boost::noncopyable
 {
 	Camera() = delete;
 public:
-	explicit Camera(float positionX, float positionY, float positionZ)
-		: position_(positionX, positionY, positionZ),
-		focus_(position_ + DirectX::SimpleMath::Vector3::Forward),
-		up_(DirectX::SimpleMath::Vector3::Up)
-	{}
+	explicit Camera(float positionX, float positionY, float positionZ);
 
 	const DirectX::SimpleMath::Vector3& GetPosition() const
 	{
@@ -25,7 +21,18 @@ public:
 			DirectX::SimpleMath::Vector3(focus_.x, focus_.y, -focus_.z), up_));
 	}
 
-	void Rotate(float xPitch, float yYaw, float zRoll);
+	bool Zoom(bool decrease);
+	bool FitToWindow();
+	void MoveStart(int screenX, int screenY);
+	void MoveEnd(int screenX, int screenY);
+	void RotatePianoStart(int screenX, int screenY);
+	void RotatePianoEnd(int screenX, int screenY);
+	void RotateCamera(float xPitch, float yYaw, float zRoll);
 private:
-	DirectX::SimpleMath::Vector3 position_, focus_, up_;
+	void CalcFocus();
+
+	static const float deltaZoom_, deltaMove_, deltaRotate_, minGap_, maxDistance_;
+
+	int moveX_, moveY_, rotateX_, rotateY_;
+	DirectX::SimpleMath::Vector3 position_, direction_, focus_, up_;
 };

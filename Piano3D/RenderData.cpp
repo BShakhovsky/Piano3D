@@ -64,9 +64,33 @@ void RenderData::SwitchTo3D() const
 	shader_->UpdateProjection(device_->GetProjection());
 }
 
+bool RenderData::Zoom(const bool decrease) const
+{
+	return camera_->Zoom(decrease);
+}
+bool RenderData::FitToWindow() const
+{
+	return camera_->FitToWindow();
+}
+void RenderData::MoveStart(const int screenX, const int screenY) const
+{
+	camera_->MoveStart(screenX, screenY);
+}
+void RenderData::MoveEnd(const int screenX, const int screenY) const
+{
+	camera_->MoveEnd(screenX, screenY);
+}
+void RenderData::RotatePianoStart(const int screenX, const int screenY) const
+{
+	camera_->RotatePianoStart(screenX, screenY);
+}
+void RenderData::RotatePianoEnd(const int screenX, const int screenY) const
+{
+	camera_->RotatePianoEnd(screenX, screenY);
+}
 void RenderData::RotateCamera(const float xPitch, const float yYaw, const float zRoll) const
 {
-	camera_->Rotate(xPitch, yYaw, zRoll);
+	camera_->RotateCamera(xPitch, yYaw, zRoll);
 }
 
 void RenderData::PressKey(const int16_t note) const
@@ -127,7 +151,7 @@ void RenderData::DrawDebugInfo() const
 	static FramesPerSec fps;
 	fps.Calculate();
 
-	const auto text((wformat{ TEXT("FPS = %1%\nX = %2%\nY = %3%\nZ = %4%") } %
+	const auto text((wformat{ TEXT("FPS = %u\nX = %.1f\nY = %.1f\nZ = %.1f") } %
 		fps.Get() % camera_->GetPosition().x % camera_->GetPosition().y % camera_->GetPosition().z).str());
 	text_->Draw(text.c_str(), static_cast<float>(width_ - 150), 5.f,
 		Color(fps.Get() > 50 ? Green.v : Red.v));

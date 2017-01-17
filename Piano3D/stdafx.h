@@ -5,6 +5,7 @@
 
 #include "targetver.h"
 
+#define NOMINMAX
 #include <comdef.h>
 #include <wrl\client.h>
 

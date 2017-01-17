@@ -12,6 +12,12 @@ public:
 	void Begin2D() const;
 	void SwitchTo3D() const;
 
+	bool Zoom(bool decrease) const;
+	bool FitToWindow() const;
+	void MoveStart(int screenX, int screenY) const;
+	void MoveEnd(int screenX, int screenY) const;
+	void RotatePianoStart(int screenX, int screenY) const;
+	void RotatePianoEnd(int screenX, int screenY) const;
 	void RotateCamera(float xPitch, float yYaw, float zRoll) const;
 
 	void PressKey(int16_t note) const;
