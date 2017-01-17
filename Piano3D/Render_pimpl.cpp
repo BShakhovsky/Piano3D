@@ -66,19 +66,19 @@ bool Render_pimpl::FitToWindow() const
 {
 	return data_->FitToWindow();
 }
-void Render_pimpl::MoveStart(const int screenX, const int screenY) const
+void Render_pimpl::MoveStart(const float screenX, const float screenY) const
 {
 	data_->MoveStart(screenX, screenY);
 }
-void Render_pimpl::MoveEnd(const int screenX, const int screenY) const
+void Render_pimpl::MoveEnd(const float screenX, const float screenY) const
 {
 	data_->MoveEnd(screenX, screenY);
 }
-void Render_pimpl::RotateStart(const int screenX, const int screenY) const
+void Render_pimpl::RotateStart(const float screenX, const float screenY) const
 {
 	data_->RotatePianoStart(screenX, screenY);
 }
-void Render_pimpl::RotateEnd(const int screenX, const int screenY) const
+void Render_pimpl::RotateEnd(const float screenX, const float screenY) const
 {
 	data_->RotatePianoEnd(screenX, screenY);
 }

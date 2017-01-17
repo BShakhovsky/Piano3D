@@ -97,34 +97,36 @@ void OnMButtonDblClick(HWND hWnd, BOOL, int, int, UINT)
 		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 }
-void OnLButtonDown(HWND hWnd, BOOL, int x, int y, UINT)
+void WinMessages::OnMButtonDown(const HWND hWnd, const BOOL, const int x, const int y, const UINT)
 {
 	if (WinClass::render) try
 	{
-		WinClass::render->RotateStart(x, y);
+		WinClass::render->RotateStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
 	}
 	catch (const DxError& e)
 	{
 		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 }
-void OnRButtonDown(HWND hWnd, BOOL, int x, int y, UINT)
+void WinMessages::OnLButtonDown(const HWND hWnd, const BOOL, const int x, const int y, const UINT)
 {
 	if (WinClass::render) try
 	{
-		WinClass::render->MoveStart(x, y);
+		WinClass::render->MoveStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
 	}
 	catch (const DxError& e)
 	{
 		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 }
-void OnMouseMove(HWND hWnd, int x, int y, UINT keyFlags)
+void WinMessages::OnMouseMove(const HWND hWnd, const int x, const int y, const UINT keyFlags)
 {
 	if (WinClass::render) try
 	{
-		if (keyFlags & MK_LBUTTON) WinClass::render->RotateEnd(x, y);
-		if (keyFlags & MK_RBUTTON) WinClass::render->MoveEnd(x, y);
+		if (keyFlags & MK_MBUTTON) WinClass::render->RotateEnd(
+			static_cast<float>(x) / width, static_cast<float>(y) / height);
+		if (keyFlags & MK_LBUTTON) WinClass::render->MoveEnd(
+			static_cast<float>(x) / width, static_cast<float>(y) / height);
 	}
 	catch (const DxError& e)
 	{
@@ -143,8 +145,8 @@ LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WP
 
 		HANDLE_MSG(hWnd, WM_MOUSEWHEEL, OnMouseWheel);
 		HANDLE_MSG(hWnd, WM_MBUTTONDBLCLK, OnMButtonDblClick);
+		HANDLE_MSG(hWnd, WM_MBUTTONDOWN, OnMButtonDown);
 		HANDLE_MSG(hWnd, WM_LBUTTONDOWN, OnLButtonDown);
-		HANDLE_MSG(hWnd, WM_RBUTTONDOWN, OnRButtonDown);
 		HANDLE_MSG(hWnd, WM_MOUSEMOVE, OnMouseMove);
 
 	default: return DefWindowProc(hWnd, message, wParam, lParam);

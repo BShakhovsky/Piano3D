@@ -72,19 +72,19 @@ bool RenderData::FitToWindow() const
 {
 	return camera_->FitToWindow(device_->GetProjection());
 }
-void RenderData::MoveStart(const int screenX, const int screenY) const
+void RenderData::MoveStart(const float screenX, const float screenY) const
 {
 	camera_->MoveStart(screenX, screenY);
 }
-void RenderData::MoveEnd(const int screenX, const int screenY) const
+void RenderData::MoveEnd(const float screenX, const float screenY) const
 {
 	camera_->MoveEnd(screenX, screenY);
 }
-void RenderData::RotatePianoStart(const int screenX, const int screenY) const
+void RenderData::RotatePianoStart(const float screenX, const float screenY) const
 {
 	camera_->RotatePianoStart(screenX, screenY);
 }
-void RenderData::RotatePianoEnd(const int screenX, const int screenY) const
+void RenderData::RotatePianoEnd(const float screenX, const float screenY) const
 {
 	camera_->RotatePianoEnd(screenX, screenY);
 }

@@ -14,10 +14,10 @@ public:
 
 	bool Zoom(bool increase) const;
 	bool FitToWindow() const;
-	void MoveStart(int screenX, int screenY) const;
-	void MoveEnd(int screenX, int screenY) const;
-	void RotatePianoStart(int screenX, int screenY) const;
-	void RotatePianoEnd(int screenX, int screenY) const;
+	void MoveStart(float screenX, float screenY) const;
+	void MoveEnd(float screenX, float screenY) const;
+	void RotatePianoStart(float screenX, float screenY) const;
+	void RotatePianoEnd(float screenX, float screenY) const;
 	void RotateCamera(float xPitch, float yYaw, float zRoll) const;
 
 	void PressKey(int16_t note) const;

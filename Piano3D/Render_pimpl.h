@@ -17,10 +17,10 @@ public:
 
 	bool Zoom(bool increase) const;
 	bool FitToWindow() const;
-	void MoveStart(int screenX, int screenY) const;
-	void MoveEnd(int screenX, int screenY) const;
-	void RotateStart(int screenX, int screenY) const;
-	void RotateEnd(int screenX, int screenY) const;
+	void MoveStart(float screenX, float screenY) const;
+	void MoveEnd(float screenX, float screenY) const;
+	void RotateStart(float screenX, float screenY) const;
+	void RotateEnd(float screenX, float screenY) const;
 private:
 	void DrawScene(bool mirrowed = false) const;
 

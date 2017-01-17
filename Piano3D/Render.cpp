@@ -46,19 +46,19 @@ bool Render::FitToWindow() const
 {
 	return pimpl_->FitToWindow();
 }
-void Render::MoveStart(const int screenX, const int screenY) const
+void Render::MoveStart(const float screenX, const float screenY) const
 {
 	pimpl_->MoveStart(screenX, screenY);
 }
-void Render::MoveEnd(const int screenX, const int screenY) const
+void Render::MoveEnd(const float screenX, const float screenY) const
 {
 	pimpl_->MoveEnd(screenX, screenY);
 }
-void Render::RotateStart(const int screenX, const int screenY) const
+void Render::RotateStart(const float screenX, const float screenY) const
 {
 	pimpl_->RotateStart(screenX, screenY);
 }
-void Render::RotateEnd(const int screenX, const int screenY) const
+void Render::RotateEnd(const float screenX, const float screenY) const
 {
 	pimpl_->RotateEnd(screenX, screenY);
 }
