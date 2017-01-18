@@ -8,26 +8,40 @@ using namespace SimpleMath;
 
 const Vector3 Camera::xMove_ = Vector3(Geometry::keyboardLength / 2, 0, 0);
 
-Camera::Camera(const float positionX, const float positionY, const float positionZ)
-	: position_(positionX, positionY, positionZ),
+Camera::Camera()
+	: position_(Vector3(Geometry::keyboardLength / 2, 25.0f, 30.0f)),
 	direction_(Vector3::Forward),
 	up_(Vector3::Up)
 {
-	if (position_.x < -maxDistance_) position_.x = -maxDistance_;
-	else if (position_.x > maxDistance_) position_.x = maxDistance_;
-	if (position_.y < -maxDistance_) position_.y = -maxDistance_;
-	else if (position_.y > maxDistance_) position_.y = maxDistance_;
-	if (position_.z < -maxDistance_) position_.z = -maxDistance_;
-	else if (position_.z > maxDistance_) position_.z = maxDistance_;
+	const auto rotationMatrix(Matrix::CreateFromYawPitchRoll(0, XMConvertToRadians(-40), 0));
+	direction_ = Vector3::Transform(direction_, rotationMatrix);
+	up_ = Vector3::Transform(up_, rotationMatrix);
+	
+	CalcFocus();
 
-	RotateCamera(-minAngle, 0, 0);
+	defPos_ = position_;
+	defFocus_ = focus_;
+	defDir_ = direction_;
+	defUp_ = up_;
 }
 
+bool IsCorrectPosition(const Vector3& position, const Vector3& direction, const Vector3& up)
+{
+	static constexpr float minGap(2.0f), maxDistance(300.0f), minAngle(0.01f);
+
+	return max({ abs(position.x - Geometry::keyboardLength / 2), position.y, position.z }) <= maxDistance
+		&& min(position.y, position.z) >= minGap && abs(direction.x) < 1 - minAngle && abs(up.x) < 1 - minAngle
+		&& min(direction.y, direction.z) > minAngle - 1 && max(direction.y, direction.z) < -minAngle
+		&& up.y > minAngle && up.y < 1 - minAngle && up.z > minAngle - 1 && up.z < -minAngle;
+}
 bool Camera::Zoom(const bool increase, const bool precise)
 {
-	const auto pos(position_ + (focus_ - position_) * deltaZoom_
+	static constexpr float deltaZoom(0.1f);
+
+	const auto pos(position_ + (focus_ - position_) * deltaZoom
 		* (increase ? 1.0f : -1.0f) * (precise ? 0.1f : 1.0f));
 	if (!IsCorrectPosition(pos, direction_, up_)) return false;
+
 	position_ = pos;
 	return true;
 }
@@ -51,18 +65,23 @@ bool Camera::FitToWindow(const Matrix& projection)
 void Camera::MoveEnd(const float screenX, const float screenY)
 {
 	assert("Wrong screen coordinates" && min(screenX, screenY) >= 0 && max(screenX, screenY) <= 1);
+
+//	static constexpr float deltaMove(1.0f);
+
 	MoveStart(screenX, screenY);
 }
 void Camera::RotatePianoEnd(const float screenX, const float screenY)
 {
 	assert("Wrong screen coordinates" && min(screenX, screenY) >= 0 && max(screenX, screenY) <= 1);
 
+	static constexpr float deltaRotate(2.0f);
+
 	auto xAxis(up_.Cross(position_ - focus_));
 	xAxis.Normalize();
 	const auto deltaX(rotateX_ - screenX), deltaY(rotateY_ - screenY),
-		xPitch((xAxis.x * deltaY + up_.x * deltaX) * deltaRotate_),
-		yYaw((xAxis.y * deltaY + up_.y * deltaX) * deltaRotate_),
-		zRoll((xAxis.z * deltaY + up_.z * deltaX) * deltaRotate_);
+		xPitch((xAxis.x * deltaY + up_.x * deltaX) * deltaRotate),
+		yYaw((xAxis.y * deltaY + up_.y * deltaX) * deltaRotate),
+		zRoll((xAxis.z * deltaY + up_.z * deltaX) * deltaRotate);
 
 	auto rotationMatrix(Matrix::CreateFromYawPitchRoll(yYaw, xPitch, zRoll));
 	if (!IsCorrectRotation(rotationMatrix))
@@ -91,24 +110,35 @@ void Camera::RotatePianoEnd(const float screenX, const float screenY)
 	RotatePianoStart(screenX, screenY);
 }
 
-void Camera::RotateCamera(const float xPitch, const float yYaw, const float zRoll)
+bool RestoreOneVector(Vector3& vec, const Vector3& target, float delta, float deltaMin)
 {
-	const auto rotationMatrix(Matrix::CreateFromYawPitchRoll(
-		XMConvertToRadians(yYaw), XMConvertToRadians(xPitch), XMConvertToRadians(zRoll)));
+	auto dir(target - vec);
+	if (dir.Length() > deltaMin)
+	{
+		dir *= delta;
+		if (dir.Length() < deltaMin)
+		{
+			dir.Normalize();
+			dir *= deltaMin;
+		}
+		vec += dir;
+		return false;
+	}
+	else
+	{
+		vec = target;
+		return true;
+	}
+}
+bool Camera::RestorePosition()
+{
+	const auto subResult(RestoreOneVector(position_, defPos_, 0.1f, 1.0f));
+	auto result(RestoreOneVector(focus_, defFocus_, 0.1f, 1.0f) && subResult);
 
-	direction_ = Vector3::Transform(direction_, rotationMatrix);
-	up_ = Vector3::Transform(up_, rotationMatrix);
-
-	CalcFocus();
+	result = RestoreOneVector(direction_, defDir_, 0.01f, 0.1f) && result;
+	return RestoreOneVector(up_, defUp_, 0.01f, 0.1f) && result;
 }
 
-bool Camera::IsCorrectPosition(const Vector3& position, const Vector3& direction, const Vector3& up) const
-{
-	return max({ abs(position.x - Geometry::keyboardLength / 2), position.y, position.z }) <= maxDistance_
-		&& min(position.y, position.z) >= minGap_ && abs(direction.x) < 1 && abs(up.x) < 1
-		&& min(direction.y, direction.z) > -1 && max(direction.y, direction.z) < 0
-		&& up.y > 0 && up.y < 1 && up.z > -1 && up.z < 0;
-}
 bool Camera::IsCorrectRotation(const Matrix& rotation) const
 {
 	const auto testDir(Vector3::Transform(direction_, rotation)), testUp(Vector3::Transform(up_, rotation));

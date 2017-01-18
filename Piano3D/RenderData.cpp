@@ -15,12 +15,11 @@ using namespace std;
 using namespace DirectX::SimpleMath;
 using namespace DirectX::Colors;
 
-RenderData::RenderData(const HWND hWnd, const UINT width, const UINT height,
-	const float cameraX, const float cameraY, const float cameraZ, LPCTSTR path)
+RenderData::RenderData(const HWND hWnd, const UINT width, const UINT height, LPCTSTR path)
 	: width_(width), height_(height),
 
 	device_(make_shared<Device>(hWnd, width_, height_)),
-	camera_(make_unique<Camera>(cameraX, cameraY, cameraZ)),
+	camera_(make_unique<Camera>()),
 	shader_(make_unique<Shader>(device_->GetDevice())),
 	geometry_(make_unique<Geometry>(device_->GetContext())),
 	text_(make_unique<Text>(device_->GetDevice(), device_->GetContext(), path)),
@@ -88,9 +87,10 @@ void RenderData::RotatePianoEnd(const float screenX, const float screenY) const
 {
 	camera_->RotatePianoEnd(screenX, screenY);
 }
-void RenderData::RotateCamera(const float xPitch, const float yYaw, const float zRoll) const
+
+bool RenderData::Restore3DPosition() const
 {
-	camera_->RotateCamera(xPitch, yYaw, zRoll);
+	return camera_->RestorePosition();
 }
 
 void RenderData::PressKey(const int16_t note) const

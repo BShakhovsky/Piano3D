@@ -30,12 +30,16 @@ int WinClass::Main(const int nCmdShow) const
 {
 	if (!InitInstance(nCmdShow)) return FALSE;
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	if (!SystemParametersInfo(SPI_SETMENUANIMATION, 0, nullptr, 0))
+		MessageBox(hWnd, TEXT("Could not set menu animation"), TEXT("Info"), MB_OK | MB_ICONASTERISK);
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
 	TCHAR path[MAX_PATH];
 	GetCurrentDirectory(ARRAYSIZE(path), path);
 	try
 	{
-		render = make_shared<Render>(hWnd, WinMessages::width, WinMessages::height,
-			26.0f, 25.0f, 30.0f, path);
+		render = make_shared<Render>(hWnd, WinMessages::width, WinMessages::height, path);
 	}
 	catch (const DxError& e)
 	{

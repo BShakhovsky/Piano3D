@@ -7,9 +7,8 @@ using std::make_unique;
 #pragma warning(push)
 #pragma warning(disable:4711)
 
-Render::Render(const HWND hWnd, const UINT width, const UINT height,
-	const float cameraX, const float cameraY, const float cameraZ, LPCTSTR path)
-	: pimpl_(new Render_pimpl(hWnd, width, height, cameraX, cameraY, cameraZ, path))
+Render::Render(const HWND hWnd, const UINT width, const UINT height, LPCTSTR path)
+	: pimpl_(new Render_pimpl(hWnd, width, height, path))
 {}
 Render::~Render()
 {
@@ -61,6 +60,11 @@ void Render::RotateStart(const float screenX, const float screenY) const
 void Render::RotateEnd(const float screenX, const float screenY) const
 {
 	pimpl_->RotateEnd(screenX, screenY);
+}
+
+bool Render::Restore3DPosition() const
+{
+	return pimpl_->Restore3DPosition();
 }
 
 #pragma warning(pop)

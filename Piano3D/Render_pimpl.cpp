@@ -5,12 +5,10 @@
 
 using std::make_unique;
 
-Render_pimpl::Render_pimpl(const HWND hWnd, const UINT width, const UINT height,
-	const float cameraX, const float cameraY, const float cameraZ, LPCTSTR path)
-	: data_(make_unique<RenderData>(hWnd, width, height, cameraX, cameraY, cameraZ, path))
+Render_pimpl::Render_pimpl(const HWND hWnd, const UINT width, const UINT height, LPCTSTR path)
+	: data_(make_unique<RenderData>(hWnd, width, height, path))
 {
 	Resize(width, height);
-	data_->RotateCamera(-40, 0, 0);
 }
 Render_pimpl::~Render_pimpl() {}
 
@@ -81,4 +79,9 @@ void Render_pimpl::RotateStart(const float screenX, const float screenY) const
 void Render_pimpl::RotateEnd(const float screenX, const float screenY) const
 {
 	data_->RotatePianoEnd(screenX, screenY);
+}
+
+bool Render_pimpl::Restore3DPosition() const
+{
+	return data_->Restore3DPosition();
 }

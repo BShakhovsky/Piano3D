@@ -3,8 +3,7 @@ class RenderData : boost::noncopyable
 {
 	RenderData() = delete;
 public:
-	explicit RenderData(HWND hWnd, UINT width, UINT height,
-		float cameraX, float cameraY, float cameraZ, LPCTSTR path);
+	explicit RenderData(HWND hWnd, UINT width, UINT height, LPCTSTR path);
 	~RenderData();
 
 	const std::shared_ptr<class Device>& GetDevice() const;
@@ -18,7 +17,8 @@ public:
 	void MoveEnd(float screenX, float screenY) const;
 	void RotatePianoStart(float screenX, float screenY) const;
 	void RotatePianoEnd(float screenX, float screenY) const;
-	void RotateCamera(float xPitch, float yYaw, float zRoll) const;
+
+	bool Restore3DPosition() const;
 
 	void PressKey(int16_t note) const;
 	void AssignFingerNums(int16_t note, const char* fingers, const bool leftHand) const;

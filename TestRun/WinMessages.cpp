@@ -134,6 +134,22 @@ void WinMessages::OnMouseMove(const HWND hWnd, const int x, const int y, const U
 	}
 }
 
+void OnContextMenu(HWND hWnd, HWND, int xPos, int yPos)
+{
+	if (TrackPopupMenu((HMENU)GetSubMenu(LoadMenu(WinClass::hInstance,
+		MAKEINTRESOURCE(IDR_CONTEXT_MENU)), 0),
+		TPM_CENTERALIGN | TPM_VCENTERALIGN | TPM_RETURNCMD,// | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION,
+		xPos, yPos, 0, hWnd, nullptr)
+		== IDM_DEFAULT_POS && WinClass::render) try
+	{
+		while (!WinClass::render->Restore3DPosition()) WinClass::render->Draw();
+	}
+	catch (const DxError& e)
+	{
+		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
+	}
+}
+
 LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WPARAM wParam, const LPARAM lParam)
 {
 	switch (message)
@@ -148,6 +164,8 @@ LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WP
 		HANDLE_MSG(hWnd, WM_MBUTTONDOWN, OnMButtonDown);
 		HANDLE_MSG(hWnd, WM_LBUTTONDOWN, OnLButtonDown);
 		HANDLE_MSG(hWnd, WM_MOUSEMOVE, OnMouseMove);
+
+		HANDLE_MSG(hWnd, WM_CONTEXTMENU, OnContextMenu);
 
 	default: return DefWindowProc(hWnd, message, wParam, lParam);
 	}
