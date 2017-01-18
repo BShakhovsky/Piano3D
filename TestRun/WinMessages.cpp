@@ -101,7 +101,10 @@ void WinMessages::OnMButtonDown(const HWND hWnd, const BOOL, const int x, const 
 {
 	if (WinClass::render) try
 	{
-		WinClass::render->MoveStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
+		// otherwise it is screen coordinates when right-click --> context menu is shown:
+		POINT point{ x, y };
+		ScreenToClient(hWnd, &point);
+		WinClass::render->MoveStart(static_cast<float>(point.x) / width, static_cast<float>(point.y) / height);
 	}
 	catch (const DxError& e)
 	{

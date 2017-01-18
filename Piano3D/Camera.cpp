@@ -9,7 +9,7 @@ using namespace SimpleMath;
 const Vector3 Camera::xMove_ = Vector3(Geometry::keyboardLength / 2, 0, 0);
 
 Camera::Camera()
-	: position_(Vector3(Geometry::keyboardLength / 2, 25.0f, 30.0f)),
+	: position_(Vector3(xMove_.x, 25.0f, 30.0f)),
 	direction_(Vector3::Forward),
 	up_(Vector3::Up)
 {
@@ -25,15 +25,35 @@ Camera::Camera()
 	defUp_ = up_;
 }
 
-bool IsCorrectPosition(const Vector3& position, const Vector3& direction, const Vector3& up)
+bool RestoreOneVector(Vector3& vec, const Vector3& target, float delta, float deltaMin)
 {
-	static constexpr float minAngle(0.01f);
-
-	return max({ abs(position.x - Geometry::keyboardLength / 2), position.y, position.z }) <= 300.0f
-		&& min(position.y, position.z) >= 2.0f && abs(direction.x) < 1 - minAngle && abs(up.x) < 1 - minAngle
-		&& min(direction.y, direction.z) > minAngle - 1 && max(direction.y, direction.z) < -minAngle
-		&& up.y > minAngle && up.y < 1 - minAngle && up.z > minAngle - 1 && up.z < -minAngle;
+	auto dir(target - vec);
+	if (dir.Length() > deltaMin)
+	{
+		dir *= delta;
+		if (dir.Length() < deltaMin)
+		{
+			dir.Normalize();
+			dir *= deltaMin;
+		}
+		vec += dir;
+		return false;
+	}
+	else
+	{
+		vec = target;
+		return true;
+	}
 }
+bool Camera::RestorePosition()
+{
+	const auto subResult(RestoreOneVector(position_, defPos_, 0.1f, 1.0f));
+	auto result(RestoreOneVector(focus_, defFocus_, 0.1f, 1.0f) && subResult);
+
+	result = RestoreOneVector(direction_, defDir_, 0.01f, 0.1f) && result;
+	return RestoreOneVector(up_, defUp_, 0.01f, 0.1f) && result;
+}
+
 bool Camera::Zoom(const bool increase, const bool precise)
 {
 	const auto pos(position_ + (focus_ - position_) * 0.1f
@@ -60,13 +80,6 @@ bool Camera::FitToWindow(const Matrix& projection)
 	return true;
 }
 
-Vector3 PerspectivePoint(const Vector3& nearPoint, const Vector3& farPoint)
-{
-	const Vector3
-		xyPoint(XMPlaneIntersectLine(Plane(Vector3::Zero, Vector3::Backward), nearPoint, farPoint)),
-		xzPoint(XMPlaneIntersectLine(Plane(Vector3::Zero, Vector3::Up), nearPoint, farPoint));
-	return move((xyPoint - nearPoint).Length() < (xzPoint - nearPoint).Length() ? xyPoint : xzPoint);
-}
 void Camera::MoveEnd(const float screenX, const float screenY, const Matrix& projection)
 {
 	assert("Wrong screen coordinates" && min(screenX, screenY) >= 0 && max(screenX, screenY) <= 1);
@@ -135,35 +148,15 @@ void Camera::RotatePianoEnd(const float screenX, const float screenY)
 	RotatePianoStart(screenX, screenY);
 }
 
-bool RestoreOneVector(Vector3& vec, const Vector3& target, float delta, float deltaMin)
+bool Camera::IsCorrectPosition(const Vector3& position, const Vector3& direction, const Vector3& up) const
 {
-	auto dir(target - vec);
-	if (dir.Length() > deltaMin)
-	{
-		dir *= delta;
-		if (dir.Length() < deltaMin)
-		{
-			dir.Normalize();
-			dir *= deltaMin;
-		}
-		vec += dir;
-		return false;
-	}
-	else
-	{
-		vec = target;
-		return true;
-	}
-}
-bool Camera::RestorePosition()
-{
-	const auto subResult(RestoreOneVector(position_, defPos_, 0.1f, 1.0f));
-	auto result(RestoreOneVector(focus_, defFocus_, 0.1f, 1.0f) && subResult);
+	static constexpr float minAngle(0.01f);
 
-	result = RestoreOneVector(direction_, defDir_, 0.01f, 0.1f) && result;
-	return RestoreOneVector(up_, defUp_, 0.01f, 0.1f) && result;
+	return max({ abs(position.x - xMove_.x), position.y, position.z }) <= maxDistance_
+		&& min(position.y, position.z) >= 2.0f && abs(direction.x) < 1 - minAngle && abs(up.x) < 1 - minAngle
+		&& min(direction.y, direction.z) > minAngle - 1 && max(direction.y, direction.z) < -minAngle
+		&& up.y > minAngle && up.y < 1 - minAngle && up.z > minAngle - 1 && up.z < -minAngle;
 }
-
 bool Camera::IsCorrectRotation(const Matrix& rotation) const
 {
 	const auto testDir(Vector3::Transform(direction_, rotation)), testUp(Vector3::Transform(up_, rotation));
@@ -197,6 +190,22 @@ bool Camera::IsInsideWindow(const Matrix& projection) const
 		return false;
 	
 	return true;
+}
+
+Vector3 Camera::PerspectivePoint(const Vector3& nearPoint, const Vector3& farPoint) const
+{
+	const Vector3
+		xyPoint(XMPlaneIntersectLine(Plane(Vector3::Zero, Vector3::Backward), nearPoint, farPoint)),
+		xzPoint(XMPlaneIntersectLine(Plane(Vector3::Zero, Vector3::Up), nearPoint, farPoint));
+	auto result((xyPoint - nearPoint).Length() < (xzPoint - nearPoint).Length() ? xyPoint : xzPoint);
+
+	if (abs(direction_.x) < 0.5f || result.Length() < maxDistance_) return move(result);
+	else
+	{
+		auto dir(farPoint - nearPoint);
+		dir.Normalize();
+		return move(nearPoint + dir * maxDistance_);
+	}
 }
 void Camera::CalcFocus()
 {

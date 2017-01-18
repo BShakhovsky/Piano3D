@@ -37,6 +37,10 @@ void Render::ReleaseAllKeys() const
 	pimpl_->ReleaseAllKeys();
 }
 
+bool Render::Restore3DPosition() const
+{
+	return pimpl_->Restore3DPosition();
+}
 bool Render::Zoom(const bool increase) const
 {
 	return pimpl_->Zoom(increase);
@@ -45,6 +49,7 @@ bool Render::FitToWindow() const
 {
 	return pimpl_->FitToWindow();
 }
+
 void Render::MoveStart(const float screenX, const float screenY) const
 {
 	pimpl_->MoveStart(screenX, screenY);
@@ -60,11 +65,6 @@ void Render::RotateStart(const float screenX, const float screenY) const
 void Render::RotateEnd(const float screenX, const float screenY) const
 {
 	pimpl_->RotateEnd(screenX, screenY);
-}
-
-bool Render::Restore3DPosition() const
-{
-	return pimpl_->Restore3DPosition();
 }
 
 #pragma warning(pop)

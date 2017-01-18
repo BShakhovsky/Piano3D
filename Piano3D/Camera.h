@@ -20,6 +20,7 @@ public:
 			DirectX::SimpleMath::Vector3(up_.x, up_.y, -up_.z)));
 	}
 
+	bool RestorePosition();
 	bool Zoom(bool increase, bool precise = false);
 	bool FitToWindow(const DirectX::SimpleMath::Matrix& projection);
 
@@ -39,13 +40,17 @@ public:
 	}
 	void MoveEnd(float screenX, float screenY, const DirectX::SimpleMath::Matrix& projection);
 	void RotatePianoEnd(float screenX, float screenY);
-
-	bool RestorePosition();
 private:
+	bool IsCorrectPosition(const DirectX::SimpleMath::Vector3& position,
+		const DirectX::SimpleMath::Vector3& direction, const DirectX::SimpleMath::Vector3& up) const;
 	bool IsCorrectRotation(const DirectX::SimpleMath::Matrix& rotation) const;
 	bool IsInsideWindow(const DirectX::SimpleMath::Matrix& projection) const;
+
+	DirectX::SimpleMath::Vector3 PerspectivePoint(const DirectX::SimpleMath::Vector3& nearPoint,
+		const DirectX::SimpleMath::Vector3& farPoint) const;
 	void CalcFocus();
 
+	static constexpr float maxDistance_ = 300.0f;
 	static const DirectX::SimpleMath::Vector3 xMove_;
 
 	float moveX_, moveY_, rotateX_, rotateY_;

@@ -63,6 +63,10 @@ void RenderData::SwitchTo3D() const
 	shader_->UpdateProjection(device_->GetProjection());
 }
 
+bool RenderData::Restore3DPosition() const
+{
+	return camera_->RestorePosition();
+}
 bool RenderData::Zoom(const bool increase) const
 {
 	return camera_->Zoom(increase);
@@ -71,6 +75,7 @@ bool RenderData::FitToWindow() const
 {
 	return camera_->FitToWindow(device_->GetProjection());
 }
+
 void RenderData::MoveStart(const float screenX, const float screenY) const
 {
 	camera_->MoveStart(screenX, screenY);
@@ -86,11 +91,6 @@ void RenderData::RotatePianoStart(const float screenX, const float screenY) cons
 void RenderData::RotatePianoEnd(const float screenX, const float screenY) const
 {
 	camera_->RotatePianoEnd(screenX, screenY);
-}
-
-bool RenderData::Restore3DPosition() const
-{
-	return camera_->RestorePosition();
 }
 
 void RenderData::PressKey(const int16_t note) const

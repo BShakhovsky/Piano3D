@@ -56,6 +56,10 @@ void Render_pimpl::ReleaseAllKeys() const
 	data_->ReleaseAllKeys();
 }
 
+bool Render_pimpl::Restore3DPosition() const
+{
+	return data_->Restore3DPosition();
+}
 bool Render_pimpl::Zoom(const bool increase) const
 {
 	return data_->Zoom(increase);
@@ -64,6 +68,7 @@ bool Render_pimpl::FitToWindow() const
 {
 	return data_->FitToWindow();
 }
+
 void Render_pimpl::MoveStart(const float screenX, const float screenY) const
 {
 	data_->MoveStart(screenX, screenY);
@@ -79,9 +84,4 @@ void Render_pimpl::RotateStart(const float screenX, const float screenY) const
 void Render_pimpl::RotateEnd(const float screenX, const float screenY) const
 {
 	data_->RotatePianoEnd(screenX, screenY);
-}
-
-bool Render_pimpl::Restore3DPosition() const
-{
-	return data_->Restore3DPosition();
 }

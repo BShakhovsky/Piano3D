@@ -11,14 +11,14 @@ public:
 	void Begin2D() const;
 	void SwitchTo3D() const;
 
+	bool Restore3DPosition() const;
 	bool Zoom(bool increase) const;
 	bool FitToWindow() const;
+
 	void MoveStart(float screenX, float screenY) const;
 	void MoveEnd(float screenX, float screenY) const;
 	void RotatePianoStart(float screenX, float screenY) const;
 	void RotatePianoEnd(float screenX, float screenY) const;
-
-	bool Restore3DPosition() const;
 
 	void PressKey(int16_t note) const;
 	void AssignFingerNums(int16_t note, const char* fingers, const bool leftHand) const;

@@ -14,14 +14,14 @@ public:
 	void AssignFingerNums(int16_t, const char*, bool leftHand = false) const;
 	void ReleaseAllKeys() const;
 
+	bool Restore3DPosition() const;
 	bool Zoom(bool increase) const;
 	bool FitToWindow() const;
+
 	void MoveStart(float screenX, float screenY) const;
 	void MoveEnd(float screenX, float screenY) const;
 	void RotateStart(float screenX, float screenY) const;
 	void RotateEnd(float screenX, float screenY) const;
-
-	bool Restore3DPosition() const;
 private:
 	void DrawScene(bool mirrowed = false) const;
 
