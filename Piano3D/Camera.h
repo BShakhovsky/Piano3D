@@ -50,7 +50,6 @@ private:
 		const DirectX::SimpleMath::Vector3& farPoint) const;
 	void CalcFocus();
 
-	static constexpr float maxDistance_ = 300.0f;
 	static const DirectX::SimpleMath::Vector3 xMove_;
 
 	float moveX_, moveY_, rotateX_, rotateY_;

@@ -97,14 +97,14 @@ void OnMButtonDblClick(HWND hWnd, BOOL, int, int, UINT)
 		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 }
+
 void WinMessages::OnMButtonDown(const HWND hWnd, const BOOL, const int x, const int y, const UINT)
 {
 	if (WinClass::render) try
 	{
-		// otherwise it is screen coordinates when right-click --> context menu is shown:
-		POINT point{ x, y };
-		ScreenToClient(hWnd, &point);
-		WinClass::render->MoveStart(static_cast<float>(point.x) / width, static_cast<float>(point.y) / height);
+		const auto unitX(static_cast<float>(x) / width), unitY(static_cast<float>(y) / height);
+		// it is screen coordinates when right-click --> context menu is shown:
+		if (unitX >= 0 && unitX <= 1 && unitY >= 0 && unitY <= 1) WinClass::render->MoveStart(unitX, unitY);
 	}
 	catch (const DxError& e)
 	{
