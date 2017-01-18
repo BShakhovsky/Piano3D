@@ -101,7 +101,7 @@ void WinMessages::OnMButtonDown(const HWND hWnd, const BOOL, const int x, const 
 {
 	if (WinClass::render) try
 	{
-		WinClass::render->RotateStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
+		WinClass::render->MoveStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
 	}
 	catch (const DxError& e)
 	{
@@ -112,7 +112,7 @@ void WinMessages::OnLButtonDown(const HWND hWnd, const BOOL, const int x, const 
 {
 	if (WinClass::render) try
 	{
-		WinClass::render->MoveStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
+		WinClass::render->RotateStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
 	}
 	catch (const DxError& e)
 	{
@@ -123,9 +123,9 @@ void WinMessages::OnMouseMove(const HWND hWnd, const int x, const int y, const U
 {
 	if (WinClass::render) try
 	{
-		if (keyFlags & MK_MBUTTON) WinClass::render->RotateEnd(
+		if (keyFlags & MK_MBUTTON) WinClass::render->MoveEnd(
 			static_cast<float>(x) / width, static_cast<float>(y) / height);
-		if (keyFlags & MK_LBUTTON) WinClass::render->MoveEnd(
+		if (keyFlags & MK_LBUTTON) WinClass::render->RotateEnd(
 			static_cast<float>(x) / width, static_cast<float>(y) / height);
 	}
 	catch (const DxError& e)

@@ -27,18 +27,16 @@ Camera::Camera()
 
 bool IsCorrectPosition(const Vector3& position, const Vector3& direction, const Vector3& up)
 {
-	static constexpr float minGap(2.0f), maxDistance(300.0f), minAngle(0.01f);
+	static constexpr float minAngle(0.01f);
 
-	return max({ abs(position.x - Geometry::keyboardLength / 2), position.y, position.z }) <= maxDistance
-		&& min(position.y, position.z) >= minGap && abs(direction.x) < 1 - minAngle && abs(up.x) < 1 - minAngle
+	return max({ abs(position.x - Geometry::keyboardLength / 2), position.y, position.z }) <= 300.0f
+		&& min(position.y, position.z) >= 2.0f && abs(direction.x) < 1 - minAngle && abs(up.x) < 1 - minAngle
 		&& min(direction.y, direction.z) > minAngle - 1 && max(direction.y, direction.z) < -minAngle
 		&& up.y > minAngle && up.y < 1 - minAngle && up.z > minAngle - 1 && up.z < -minAngle;
 }
 bool Camera::Zoom(const bool increase, const bool precise)
 {
-	static constexpr float deltaZoom(0.1f);
-
-	const auto pos(position_ + (focus_ - position_) * deltaZoom
+	const auto pos(position_ + (focus_ - position_) * 0.1f
 		* (increase ? 1.0f : -1.0f) * (precise ? 0.1f : 1.0f));
 	if (!IsCorrectPosition(pos, direction_, up_)) return false;
 
@@ -62,11 +60,38 @@ bool Camera::FitToWindow(const Matrix& projection)
 	return true;
 }
 
-void Camera::MoveEnd(const float screenX, const float screenY)
+Vector3 PerspectivePoint(const Vector3& nearPoint, const Vector3& farPoint)
+{
+	const Vector3
+		xyPoint(XMPlaneIntersectLine(Plane(Vector3::Zero, Vector3::Backward), nearPoint, farPoint)),
+		xzPoint(XMPlaneIntersectLine(Plane(Vector3::Zero, Vector3::Up), nearPoint, farPoint));
+	return move((xyPoint - nearPoint).Length() < (xzPoint - nearPoint).Length() ? xyPoint : xzPoint);
+}
+void Camera::MoveEnd(const float screenX, const float screenY, const Matrix& projection)
 {
 	assert("Wrong screen coordinates" && min(screenX, screenY) >= 0 && max(screenX, screenY) <= 1);
 
-//	static constexpr float deltaMove(1.0f);
+	const auto pickPoint(PerspectivePoint(
+		XMVector3Unproject(Vector3(moveX_, moveY_, 0), 0, 0, 1, 1, 0, 1,
+			projection, GetViewMatrix(), Matrix::Identity),
+		XMVector3Unproject(Vector3(moveX_, moveY_, 1), 0, 0, 1, 1, 0, 1,
+			projection, GetViewMatrix(), Matrix::Identity))),
+
+		dir(pickPoint - Vector3(XMPlaneIntersectLine(XMPlaneFromPointNormal(pickPoint,
+			XMVector3Unproject(Vector3(0.5f, 0.5f, 1), 0, 0, 1, 1, 0, 1,
+				projection, GetViewMatrix(), Matrix::Identity) -
+			XMVector3Unproject(Vector3(0.5f, 0.5f, 0), 0, 0, 1, 1, 0, 1,
+				projection, GetViewMatrix(), Matrix::Identity)),
+			XMVector3Unproject(Vector3(screenX, screenY, 0), 0, 0, 1, 1, 0, 1,
+				projection, GetViewMatrix(), Matrix::Identity),
+			XMVector3Unproject(Vector3(screenX, screenY, 1), 0, 0, 1, 1, 0, 1,
+				projection, GetViewMatrix(), Matrix::Identity))));
+
+	if (IsCorrectPosition(position_ + Vector3(dir.x, 0, 0), direction_, up_)) position_.x += dir.x;
+	if (IsCorrectPosition(position_ + Vector3(0, dir.y, 0), direction_, up_)) position_.y += dir.y;
+	if (IsCorrectPosition(position_ + Vector3(0, 0, dir.z), direction_, up_)) position_.z += dir.z;
+
+	CalcFocus();
 
 	MoveStart(screenX, screenY);
 }
@@ -177,12 +202,5 @@ void Camera::CalcFocus()
 {
 	assert("Wrong camera position, it may cause division by zero"
 		&& IsCorrectPosition(position_, direction_, up_));
-	const auto
-		deltaY(position_.y > numeric_limits<float>::epsilon() ? direction_.y / position_.y : 0),
-		deltaZ(position_.z > numeric_limits<float>::epsilon() ? direction_.z / position_.z : 0);
-	assert("Wrong camera position, it may cause division by zero"
-		&& deltaY < -numeric_limits<float>::epsilon() && deltaZ < -numeric_limits<float>::epsilon());
-	const auto delta(1.0f / min(deltaY, deltaZ));
-
-	focus_ = position_ - direction_ * delta;
+	focus_ = PerspectivePoint(position_, position_ + direction_);
 }

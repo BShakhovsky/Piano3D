@@ -87,7 +87,7 @@ private:
 #else
 		0;
 #endif
-	const float SCREEN_NEAR = 0.001f, SCREEN_DEPTH = 1000;
+	static constexpr float SCREEN_NEAR = 0.001f, SCREEN_DEPTH = 1000.0f;
 	DirectX::SimpleMath::Matrix orthographic_, projection_;
 
 	Microsoft::WRL::ComPtr<ID3D11Device> device_;

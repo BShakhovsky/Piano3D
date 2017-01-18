@@ -1,5 +1,4 @@
 #pragma once
-
 class Camera : boost::noncopyable
 {
 public:
@@ -38,7 +37,7 @@ public:
 		rotateX_ = screenX;
 		rotateY_ = screenY;
 	}
-	void MoveEnd(float screenX, float screenY);
+	void MoveEnd(float screenX, float screenY, const DirectX::SimpleMath::Matrix& projection);
 	void RotatePianoEnd(float screenX, float screenY);
 
 	bool RestorePosition();

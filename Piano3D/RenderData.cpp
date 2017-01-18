@@ -77,7 +77,7 @@ void RenderData::MoveStart(const float screenX, const float screenY) const
 }
 void RenderData::MoveEnd(const float screenX, const float screenY) const
 {
-	camera_->MoveEnd(screenX, screenY);
+	camera_->MoveEnd(screenX, screenY, device_->GetProjection());
 }
 void RenderData::RotatePianoStart(const float screenX, const float screenY) const
 {
