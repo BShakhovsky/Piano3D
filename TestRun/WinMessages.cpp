@@ -139,7 +139,7 @@ void WinMessages::OnMouseMove(const HWND hWnd, const int x, const int y, const U
 
 void OnContextMenu(HWND hWnd, HWND, int xPos, int yPos)
 {
-	if (TrackPopupMenu((HMENU)GetSubMenu(LoadMenu(WinClass::hInstance,
+	if (TrackPopupMenu(GetSubMenu(LoadMenu(WinClass::hInstance,
 		MAKEINTRESOURCE(IDR_CONTEXT_MENU)), 0),
 		TPM_CENTERALIGN | TPM_VCENTERALIGN | TPM_RETURNCMD,// | TPM_HORPOSANIMATION | TPM_VERPOSANIMATION,
 		xPos, yPos, 0, hWnd, nullptr)
