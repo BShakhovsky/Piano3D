@@ -151,10 +151,16 @@ void RenderData::DrawDebugInfo() const
 	static FramesPerSec fps;
 	fps.Calculate();
 
-	const auto text((wformat{ TEXT("FPS = %u\nX = %.1f\nY = %.1f\nZ = %.1f") } %
-		fps.Get() % camera_->GetPosition().x % camera_->GetPosition().y % camera_->GetPosition().z).str());
+	const auto text((wformat
+#ifdef _DEBUG
+	{ TEXT("FPS = %u\nX = %.1f\nY = %.1f\nZ = %.1f") } %
+		fps.Get() % camera_->GetPosition().x % camera_->GetPosition().y % camera_->GetPosition().z
+#else
+	{ TEXT("FPS = %1%") } % fps.Get()
+#endif
+		).str());
 	text_->Draw(text.c_str(), static_cast<float>(width_ - 150), 5.f,
-		Color(fps.Get() > 50 ? Green.v : Red.v));
+		Color(fps.Get() > 50 ? Lime.v : fps.Get() > 30 ? Gold.v : Red.v));
 }
 
 void RenderData::BeginPianoDeskBuffer() const

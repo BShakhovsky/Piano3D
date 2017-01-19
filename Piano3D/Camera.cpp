@@ -6,14 +6,7 @@ using namespace std;
 using namespace DirectX;
 using namespace SimpleMath;
 
-const Vector3 Camera::xMove_ = Vector3(Geometry::keyboardLength / 2, 0, 0),
-
-Camera::borderPoint1_ = Vector3(0, 0, Geometry::GetKeyboardWidth()),
-Camera::borderPoint2_ = Vector3(Geometry::keyboardLength, 0, Geometry::GetKeyboardWidth()),
-Camera::borderPoint3_ = Vector3(-(Geometry::deskLength - Geometry::keyboardLength) / 2,
-	Geometry::deskHeight, -Geometry::deskThickness),
-Camera::borderPoint4_ = Vector3(Geometry::deskLength - (Geometry::deskLength - Geometry::keyboardLength) / 2,
-	Geometry::deskHeight, -Geometry::deskThickness);
+const Vector3 Camera::xMove_ = Vector3(Geometry::keyboardLength / 2, 0, 0);
 
 Camera::Camera()
 	: position_(Vector3(xMove_.x, 25.0f, 30.0f)),
@@ -69,99 +62,35 @@ bool Camera::Zoom(const bool increase, const bool precise)
 	position_ = pos;
 	return true;
 }
-
-bool Camera::FitStageCommon(const Matrix& projection, const Vector3& centralPoint)
+bool Camera::FitToWindow(const Matrix& projection)
 {
 	const Vector3 farPoint(XMVector3Unproject(Vector3(0.5f, 0.5f, 1), 0, 0, 1, 1, 0, 1,
 		projection, GetViewMatrix(), Matrix::Identity)),
-		targetPos(position_ + centralPoint - Vector3(XMPlaneIntersectLine(XMPlaneFromPointNormal(
-			centralPoint, farPoint - position_), position_, farPoint)));
+		targetPos(position_ + xMove_ - Vector3(XMPlaneIntersectLine(XMPlaneFromPointNormal(
+			xMove_, farPoint - position_), position_, farPoint)));
 
 	auto newPos(position_);
 	const auto result(RestoreOneVector(newPos, targetPos, 0.1f, 1.0f));
-	if (!IsCorrectPosition(newPos, direction_, up_)) return true;
-	else
+	if (IsCorrectPosition(newPos, direction_, up_))
 	{
 		position_ = newPos;
 		CalcFocus();
-		return result;
 	}
-}
-bool Camera::FitStage1(const Matrix& projection)
-{
-	static bool firstStage(true);
 
-	if (firstStage)
-		if (!FitStageCommon(projection, xMove_)) return false;
-		else firstStage = false;
-	else if (IsInsideWindow(projection))
-		if (!Zoom(true)) firstStage = true;
+	if (IsInsideWindow(projection))
+		if (!Zoom(true)) return true;
 		else if (IsInsideWindow(projection)) return false;
-		else
-		{
-			Zoom(false);
-			firstStage = true;
-		}
-	else if (!Zoom(false)) firstStage = true;
-	else firstStage = IsInsideWindow(projection);
-
-	return firstStage;
-}
-bool Camera::FitStage2(const Matrix& projection, const Vector3& centralPoint)
-{
-	static bool firstStage(true);
-
-	if (firstStage)
-	{
-		if (!FitStageCommon(projection, centralPoint)) return false;
-		else firstStage = false;
-	}
-	else if (IsInsideWindow(projection))
-		if (!Zoom(true)) firstStage = true;
-		else if (IsInsideWindow(projection)) return false;
-		else
-		{
-			while (!IsInsideWindow(projection)) Zoom(false, true);
-			firstStage = true;
-		}
+		else while (!IsInsideWindow(projection) && Zoom(false, true));
 	else
-		if (!Zoom(false)) firstStage = true;
+		if (!Zoom(false)) return true;
 		else if (!IsInsideWindow(projection)) return false;
 		else
 		{
-			while (IsInsideWindow(projection)) Zoom(true, true);
+			while (IsInsideWindow(projection) && Zoom(true, true));
 			Zoom(false, true);
-			firstStage = true;
 		}
 
-	return firstStage;
-}
-bool Camera::FitToWindow(const Matrix& projection)
-{
-	static bool firstStage(true);
-	static Vector3 centralPoint;
-
-	if (firstStage)
-	{
-		if (FitStage1(projection))
-		{
-			firstStage = false;
-			centralPoint = PerspectivePoint(position_, XMVector3Unproject(((
-				Vector3::Transform(Vector3::Transform(borderPoint1_, GetViewMatrix()), projection) +
-				Vector3::Transform(Vector3::Transform(borderPoint2_, GetViewMatrix()), projection) +
-				Vector3::Transform(Vector3::Transform(borderPoint3_, GetViewMatrix()), projection) +
-				Vector3::Transform(Vector3::Transform(borderPoint4_, GetViewMatrix()), projection))
-				// XMUnproject coordinates are between 0 and 1, not between -1 and 1:
-				* 0.25f + Vector3(1, 1, 1)) * 0.5f,
-				0, 0, 1, 1, 0, 1, projection, GetViewMatrix(), Matrix::Identity));
-		}
-		return false;
-	}
-	else
-	{
-		if (FitStage2(projection, centralPoint)) firstStage = true;
-		return firstStage;
-	}
+	return result;
 }
 
 void Camera::MoveEnd(const float screenX, const float screenY, const Matrix& projection)
@@ -244,19 +173,25 @@ bool Camera::IsCorrectRotation(const Matrix& rotation) const
 }
 bool Camera::IsInsideWindow(const Matrix& projection) const
 {
-	auto screenPoint(Vector3::Transform(Vector3::Transform(borderPoint1_, GetViewMatrix()), projection));
+	static const Vector3 borderPoint1(0, 0, Geometry::GetKeyboardWidth());
+	auto screenPoint(Vector3::Transform(Vector3::Transform(borderPoint1, GetViewMatrix()), projection));
 	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
 		return false;
 
-	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint2_, GetViewMatrix()), projection);
+	static const Vector3 borderPoint2(Geometry::keyboardLength, 0, Geometry::GetKeyboardWidth());
+	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint2, GetViewMatrix()), projection);
 	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
 		return false;
 
-	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint3_, GetViewMatrix()), projection);
+	static const Vector3 borderPoint3(-(Geometry::deskLength - Geometry::keyboardLength) / 2,
+		Geometry::deskHeight, -Geometry::deskThickness);
+	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint3, GetViewMatrix()), projection);
 	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
 		return false;
 
-	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint4_, GetViewMatrix()), projection);
+	static const Vector3 borderPoint4(Geometry::deskLength - (Geometry::deskLength
+		- Geometry::keyboardLength) / 2, Geometry::deskHeight, -Geometry::deskThickness);
+	screenPoint = Vector3::Transform(Vector3::Transform(borderPoint4, GetViewMatrix()), projection);
 	if (screenPoint.x < -1 || screenPoint.x > 1 || screenPoint.y < -1 || screenPoint.y > 1)
 		return false;
 	

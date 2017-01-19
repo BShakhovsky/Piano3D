@@ -41,12 +41,6 @@ public:
 	void MoveEnd(float screenX, float screenY, const DirectX::SimpleMath::Matrix& projection);
 	void RotatePianoEnd(float screenX, float screenY);
 private:
-	bool FitStageCommon(const DirectX::SimpleMath::Matrix& projection,
-		const DirectX::SimpleMath::Vector3& centralPoint);
-	bool FitStage1(const DirectX::SimpleMath::Matrix& projection);
-	bool FitStage2(const DirectX::SimpleMath::Matrix& projection,
-		const DirectX::SimpleMath::Vector3& centralPoint);
-
 	bool IsCorrectPosition(const DirectX::SimpleMath::Vector3& position,
 		const DirectX::SimpleMath::Vector3& direction, const DirectX::SimpleMath::Vector3& up) const;
 	bool IsCorrectRotation(const DirectX::SimpleMath::Matrix& rotation) const;
@@ -56,8 +50,7 @@ private:
 		const DirectX::SimpleMath::Vector3& farPoint) const;
 	void CalcFocus();
 
-	static const DirectX::SimpleMath::Vector3 xMove_,
-		borderPoint1_, borderPoint2_, borderPoint3_, borderPoint4_;
+	static const DirectX::SimpleMath::Vector3 xMove_;
 
 	float moveX_, moveY_, rotateX_, rotateY_;
 	DirectX::SimpleMath::Vector3 position_, direction_, focus_, up_,

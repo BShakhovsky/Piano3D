@@ -164,6 +164,7 @@ LRESULT CALLBACK WinMessages::Main(const HWND hWnd, const UINT message, const WP
 
 		HANDLE_MSG(hWnd, WM_MOUSEWHEEL, OnMouseWheel);
 		HANDLE_MSG(hWnd, WM_MBUTTONDBLCLK, OnMButtonDblClick);
+
 		HANDLE_MSG(hWnd, WM_MBUTTONDOWN, OnMButtonDown);
 		HANDLE_MSG(hWnd, WM_LBUTTONDOWN, OnLButtonDown);
 		HANDLE_MSG(hWnd, WM_MOUSEMOVE, OnMouseMove);
