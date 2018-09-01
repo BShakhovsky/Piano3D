@@ -29,12 +29,14 @@ Mesh::Mesh()
 	{ 0 * WHITE_WIDTH, 0, WHITE_LENGTH },
 	{ 1 * WHITE_WIDTH, 0, WHITE_LENGTH }
 },
+#pragma warning(push)
+#pragma warning(disable:5038) // whiteIndices_ will be initialized after blackPositions_
 whiteIndices_
 {
 	0, 1, 2,		2, 1, 3,		4, 5, 6,		6, 5, 7,		8, 9, 10,		10, 9, 11,
 	13, 12, 15,		15, 12, 14,		17, 16, 19,		19, 16, 18
 },
-
+#pragma warning(pop)
 blackPositions_
 {
 	{ (1 - WHITE_GAP + BLACK_FILLET) * WHITE_WIDTH, 1.5f, 2.7f },

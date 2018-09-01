@@ -4,7 +4,7 @@ class ResourceLoader : boost::noncopyable
 {
 	ResourceLoader() = delete;
 public:
-	explicit ResourceLoader(int resourceID, LPCTSTR resourceType)
+	explicit ResourceLoader(int resourceID, LPCTSTR resourceType) : data_(nullptr)
 	{
 		const auto hResource(FindResource(GetModuleHandle(nullptr), MAKEINTRESOURCE(resourceID), resourceType));
 		if (hResource)

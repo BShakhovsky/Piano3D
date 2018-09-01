@@ -10,6 +10,8 @@ KeyStates::DELTA_WHITE = 0.0003f,
 KeyStates::MAX_BLACK = XMConvertToRadians(7),
 KeyStates::MAX_WHITE = XMConvertToRadians(5);
 
+#pragma warning(push)
+#pragma warning(disable:26495) // angle uninitialized
 struct KeyData
 {
 	float angle, delta;
@@ -20,6 +22,7 @@ struct KeyData
 private:
 	const BYTE padding[2] = { '\0' };
 };
+#pragma warning(pop)
 
 KeyStates::KeyStates()
 	: keys_(88)

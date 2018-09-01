@@ -39,6 +39,9 @@ void CALLBACK OnTimer(const HWND, UINT, UINT_PTR, const DWORD dwTime)
 inline BOOL WinMessages::OnCreate(const HWND hWnd, LPCREATESTRUCT)
 {
 	srand(static_cast<unsigned>(time(nullptr)));
+	// Potentially throwing function passed to extern C function
+	// Undefined behavior may occur if this function throws
+#pragma warning(suppress:5039)
 	SetTimer(hWnd, 0, 200, OnTimer);
 
 	return true;
@@ -62,6 +65,9 @@ inline void OnCommand(HWND hWnd, int id, HWND, UINT)
 {
 	switch (id)
 	{
+		// Potentially throwing function passed to extern C function
+		// Undefined behavior may occur if this function throws
+#pragma warning(suppress:5039)
 	case IDM_ABOUT:	DialogBox(WinClass::hInstance, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About); break;
 	case IDM_EXIT:	DestroyWindow(hWnd);
 	}

@@ -10,6 +10,7 @@ public:
 	explicit DxError(const char* msg) : RusError(msg) {};
 	explicit DxError(const wchar_t* rusMsg) : RusError(rusMsg) {};
 #pragma warning(pop)
+#pragma warning(suppress:26439) // This kind of function may not throw, declare it noexcept
 	virtual ~DxError() throw() override /* not final */ = default;
 	
 	template<class ErrorClass>
