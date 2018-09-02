@@ -51,9 +51,6 @@
     <ClInclude Include="Batch.h">
       <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Frame.h">
-      <Filter>Header Files\DirectX\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -107,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="Geometry_pimpl.h">
       <Filter>Header Files\DirectX\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameDx.h">
+      <Filter>Header Files\DirectX\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

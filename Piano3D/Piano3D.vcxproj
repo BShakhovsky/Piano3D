@@ -162,7 +162,7 @@
     <ClInclude Include="Batch.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Device.h" />
-    <ClInclude Include="Frame.h" />
+    <ClInclude Include="FrameDx.h" />
     <ClInclude Include="FramesPerSec.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Geometry_pimpl.h" />

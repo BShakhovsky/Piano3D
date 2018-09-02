@@ -4,7 +4,7 @@ class RusError : public std::exception
 {
 public:
 #pragma warning(push)
-#pragma warning(disable:4514)	// unreferenced inline function has been removed
+#pragma warning(disable:4514 4710) // Unreferenced inline function has been removed; Function not inlined
 	RusError() : rusMsg_(TEXT("Unknown exception")) {}
 	explicit RusError(const char* msg) : msg_(msg)
 	{
@@ -24,6 +24,7 @@ public:
 		return msg_.c_str();
 	}
 #endif
+	virtual ~RusError() noexcept override = default;
 private:
 	virtual const char* what() const override final
 	{

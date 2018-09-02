@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Render_pimpl.h"
 #include "RenderData.h"
-#include "Frame.h"
+#include "FrameDx.h"
 
 using std::make_unique;
 
@@ -26,7 +26,7 @@ void Render_pimpl::Draw() const
 	data_->DrawPianoDeskBuffer();
 
 	data_->Begin2D();
-	Frame frame(data_->GetDevice(), SteelBlue.v);
+	FrameDx frame(data_->GetDevice(), SteelBlue.v);
 	data_->DrawPianoDesk();
 
 	DrawScene();
