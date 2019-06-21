@@ -11,6 +11,8 @@ HINSTANCE WinClass::hInstance = nullptr;
 HWND WinClass::hWnd = nullptr;
 shared_ptr<Render> WinClass::render = nullptr;
 
+#pragma warning(push)
+#pragma warning(disable: 4711) // Automatic inline expansion
 ATOM WinClass::MyRegisterClass() const
 {
 	WNDCLASSEXW wcex{ sizeof wcex };
@@ -25,6 +27,7 @@ ATOM WinClass::MyRegisterClass() const
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 	return RegisterClassExW(&wcex);
 }
+#pragma warning(pop)
 
 int WinClass::Main(const int nCmdShow) const
 {

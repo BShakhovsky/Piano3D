@@ -9,7 +9,8 @@ using namespace SimpleMath;
 const Vector3 Camera::xMove_ = Vector3(Geometry::keyboardLength / 2, 0, 0);
 
 Camera::Camera()
-	: position_(Vector3(xMove_.x, 18.0f, 19.0f)),
+	: moveX_(0), moveY_(0), rotateX_(0), rotateY_(0),
+	position_(Vector3(xMove_.x, 18.0f, 19.0f)),
 	direction_(Vector3::Forward),
 	up_(Vector3::Up)
 {

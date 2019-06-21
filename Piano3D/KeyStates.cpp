@@ -32,6 +32,8 @@ KeyStates::KeyStates()
 	for (auto& key : keys_) key = make_shared<KeyData>();
 }
 
+#pragma warning(push)
+#pragma warning(disable: 5045) // Compiler will insert Spectre mitigation for memory load
 float KeyStates::GetAngle(const int16_t note) const
 {
 	return keys_.at(static_cast<size_t>(note))->angle;
@@ -48,6 +50,7 @@ bool KeyStates::IsHighlighted(const int16_t note) const
 {
 	return keys_.at(static_cast<size_t>(note))->highlighted;
 }
+#pragma warning(pop)
 
 bool IsBlackKey(int16_t note)
 {
