@@ -36,12 +36,15 @@ void Render_pimpl::Draw() const
 
 	data_->ReturnPressedKeys();
 }
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 void Render_pimpl::DrawScene(const bool mirrowed) const
 {
 	data_->SwitchTo3D();
 	for (int16_t i(0); i < 88; ++i)
 		data_->DrawPianoKey(i, mirrowed);
 }
+#pragma warning(pop)
 
 void Render_pimpl::PressKey(const int16_t note) const
 {

@@ -2,6 +2,8 @@
 #include "Mesh.h"
 #include "DxError.h"
 
+//#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 Mesh::Mesh()
 	: whiteMiddlePositions_
 {
@@ -149,6 +151,7 @@ blackIndices_
 	assert("Could not generate mesh adjacent indices" && SUCCEEDED(GenerateAdjacencyAndPointReps(
 		whiteIndices_.data(), whiteIndices_.size() / 3, whiteMiddlePositions_.data(), whiteMiddlePositions_.size(),
 		0, nullptr, adjacency.data())));
+#pragma warning(suppress:26812) // Enum type is unscoped. Prefer enum class over enum
 	assert("Mesh indices are not correct" && SUCCEEDED(Validate(
 		whiteIndices_.data(), whiteIndices_.size() / 3, whiteMiddlePositions_.size(), adjacency.data(),
 		VALIDATE_BACKFACING | VALIDATE_BOWTIES | VALIDATE_ASYMMETRIC_ADJ | VALIDATE_DEGENERATE | VALIDATE_UNUSED, nullptr)));
@@ -190,3 +193,4 @@ blackIndices_
 		CalculateNormals(blackPositions_, &blackNormals_,
 			blackIndices_.at(i * 3), blackIndices_.at(i * 3 + 1), blackIndices_.at(i * 3 + 2));
 }
+//#pragma warning(pop)

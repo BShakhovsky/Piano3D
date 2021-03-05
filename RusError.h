@@ -1,10 +1,10 @@
 #pragma once
 
+#pragma warning(push)
+#pragma warning(disable:4514 4710) // Unreferenced inline function has been removed; Function not inlined
 class RusError : public std::exception
 {
 public:
-#pragma warning(push)
-#pragma warning(disable:4514 4710) // Unreferenced inline function has been removed; Function not inlined
 	RusError() : rusMsg_(TEXT("Unknown exception")) {}
 	explicit RusError(const char* msg) : msg_(msg)
 	{
@@ -31,8 +31,8 @@ private:
 		assert(!"MidiError::RusWhat() should be called instead of what()");
 		return nullptr;
 	}
-#pragma warning(pop)
 
 	std::string msg_;
 	std::wstring rusMsg_;
 };
+#pragma warning(pop)

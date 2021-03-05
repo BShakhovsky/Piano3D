@@ -4,6 +4,8 @@
 
 using Microsoft::WRL::ComPtr;
 
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 Device::Device(const HWND hWnd, const UINT width, const UINT height)
 {
 	assert("Direct3D Debug Device is not available" && SUCCEEDED(D3D11CreateDevice(nullptr,
@@ -43,13 +45,14 @@ Device::Device(const HWND hWnd, const UINT width, const UINT height)
 
 	Resize(width, height);
 }
+#pragma warning(pop)
 Device::~Device()
 {
 	if (context_) context_->ClearState();
 }
 
 #pragma warning(push)
-#pragma warning(disable:4711)
+#pragma warning(disable:4711 5045)
 HRESULT Device::CreateBackBuffer()
 {
 	ComPtr<ID3D11Texture2D> resourceBuffer;
@@ -59,6 +62,8 @@ HRESULT Device::CreateBackBuffer()
 }
 #pragma warning(pop)
 
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 HRESULT Device::CreateDepthBuffer(const UINT width, const UINT height)
 {
 	CD3D11_TEXTURE2D_DESC textDesc(DXGI_FORMAT_D24_UNORM_S8_UINT, width, height, 1, 1,
@@ -80,6 +85,7 @@ HRESULT Device::SetAntiAliasingMode()
 	context_->RSSetState(raster_.Get());
 	return hResult;
 }
+#pragma warning(pop)
 
 void Device::Resize(UINT width, UINT height)
 {
@@ -93,7 +99,7 @@ void Device::Resize(UINT width, UINT height)
 	orthographic_ = Matrix::CreateOrthographic(
 		static_cast<float>(width), static_cast<float>(height), SCREEN_NEAR, SCREEN_DEPTH);
 	projection_ = Matrix::CreatePerspectiveFieldOfView(XMConvertToRadians(45),
-		static_cast<float>(width) / height, SCREEN_NEAR, SCREEN_DEPTH);
+		static_cast<float>(width) / static_cast<float>(height), SCREEN_NEAR, SCREEN_DEPTH);
 
 	backBuffer_.Reset();
 	depthBuffer_.Reset();

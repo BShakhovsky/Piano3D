@@ -74,6 +74,8 @@ void KeyStates::AssignFinger(const int16_t note, const char* fingers, const bool
 	key->fingers = fingers;
 	key->leftHand = leftHand;
 }
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 void KeyStates::ReleaseAllKeys() const
 {
 	for (size_t i(0); i < keys_.size(); ++i)
@@ -83,6 +85,10 @@ void KeyStates::ReleaseAllKeys() const
 		keys_.at(i)->delta = IsBlackKey(static_cast<int16_t>(i)) ? DELTA_BLACK : DELTA_WHITE;
 	}
 }
+#pragma warning(pop)
+
+//#pragma warning(push)
+#pragma warning(disable: 4711) // Automatic inline expansion
 void KeyStates::ReturnPressedKeys() const
 {
 	static DWORD startTime(GetTickCount());
@@ -91,11 +97,12 @@ void KeyStates::ReturnPressedKeys() const
 	{
 // Consider using 'GetTickCount64' : GetTickCount overflows every 49 days, and code can loop indefinitely
 #pragma warning(suppress:28159)
-		const auto delta(key->delta * (GetTickCount() - startTime));
+		const auto delta(key->delta * static_cast<float>(GetTickCount() - startTime));
 #pragma warning(suppress:28159)
-		if (key->angle > key->delta * (GetTickCount() - startTime)) key->angle -= delta;
+		if (key->angle > key->delta * static_cast<float>(GetTickCount() - startTime)) key->angle -= delta;
 		else key->angle = key->delta = 0;
 	}
 #pragma warning(suppress:28159)
 	startTime = GetTickCount();
 }
+//#pragma warning(pop)

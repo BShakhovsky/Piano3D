@@ -104,11 +104,16 @@ void OnMButtonDblClick(HWND hWnd, BOOL, int, int, UINT)
 	}
 }
 
+float Divide(int divisible, UINT divider) { return static_cast<float>(divisible) / static_cast<float>(divider); }
+#define UNIT_COORD Divide(x, width), Divide(y, height)
+
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 void WinMessages::OnMButtonDown(const HWND hWnd, const BOOL, const int x, const int y, const UINT)
 {
 	if (WinClass::render) try
 	{
-		const auto unitX(static_cast<float>(x) / width), unitY(static_cast<float>(y) / height);
+		const auto unitX(Divide(x, width)), unitY(Divide(y, height));
 		// it is screen coordinates when right-click --> context menu is shown:
 		if (unitX >= 0 && unitX <= 1 && unitY >= 0 && unitY <= 1) WinClass::render->MoveStart(unitX, unitY);
 	}
@@ -121,7 +126,7 @@ void WinMessages::OnLButtonDown(const HWND hWnd, const BOOL, const int x, const 
 {
 	if (WinClass::render) try
 	{
-		WinClass::render->RotateStart(static_cast<float>(x) / width, static_cast<float>(y) / height);
+		WinClass::render->RotateStart(UNIT_COORD);
 	}
 	catch (const DxError& e)
 	{
@@ -132,16 +137,15 @@ void WinMessages::OnMouseMove(const HWND hWnd, const int x, const int y, const U
 {
 	if (WinClass::render) try
 	{
-		if (keyFlags & MK_MBUTTON) WinClass::render->MoveEnd(
-			static_cast<float>(x) / width, static_cast<float>(y) / height);
-		if (keyFlags & MK_LBUTTON) WinClass::render->RotateEnd(
-			static_cast<float>(x) / width, static_cast<float>(y) / height);
+		if (keyFlags & MK_MBUTTON) WinClass::render->MoveEnd(UNIT_COORD);
+		if (keyFlags & MK_LBUTTON) WinClass::render->RotateEnd(UNIT_COORD);
 	}
 	catch (const DxError& e)
 	{
 		MessageBox(hWnd, e.RusWhat(), TEXT("DirectX Error"), MB_OK | MB_ICONHAND);
 	}
 }
+#pragma warning(pop)
 
 void OnContextMenu(HWND hWnd, HWND, int xPos, int yPos)
 {

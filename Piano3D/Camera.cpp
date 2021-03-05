@@ -26,6 +26,8 @@ Camera::Camera()
 	defUp_ = up_;
 }
 
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 bool RestoreOneVector(Vector3& vec, const Vector3& target, float delta, float deltaMin)
 {
 	auto dir(target - vec);
@@ -46,6 +48,10 @@ bool RestoreOneVector(Vector3& vec, const Vector3& target, float delta, float de
 		return true;
 	}
 }
+#pragma warning(pop)
+
+#pragma warning(push)
+#pragma warning(disable: 4711) // Automatic inline expansion
 bool Camera::RestorePosition()
 {
 	const auto subResult(RestoreOneVector(position_, defPos_, 0.1f, 1.0f));
@@ -54,6 +60,7 @@ bool Camera::RestorePosition()
 	result = RestoreOneVector(direction_, defDir_, 0.01f, 0.1f) && result;
 	return RestoreOneVector(up_, defUp_, 0.01f, 0.1f) && result;
 }
+#pragma warning(pop)
 bool Camera::Zoom(const bool increase, const bool precise)
 {
 	const auto pos(position_ + (focus_ - position_) * 0.1f
@@ -155,6 +162,8 @@ void Camera::RotatePianoEnd(const float screenX, const float screenY)
 	RotatePianoStart(screenX, screenY);
 }
 
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 bool Camera::IsCorrectPosition(const Vector3& position, const Vector3& direction, const Vector3& up) const
 {
 	static constexpr float minAngle(0.01f);
@@ -164,6 +173,7 @@ bool Camera::IsCorrectPosition(const Vector3& position, const Vector3& direction
 		&& min(direction.y, direction.z) > minAngle - 1 && max(direction.y, direction.z) < -minAngle
 		&& up.y > minAngle && up.y < 1 - minAngle && up.z > minAngle - 1 && up.z < -minAngle;
 }
+#pragma warning(pop)
 bool Camera::IsCorrectRotation(const Matrix& rotation) const
 {
 	const auto testDir(Vector3::Transform(direction_, rotation)), testUp(Vector3::Transform(up_, rotation));

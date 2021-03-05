@@ -8,6 +8,8 @@ using namespace DirectX;
 using namespace Colors;
 using namespace SimpleMath;
 
+#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 Geometry_pimpl::Geometry_pimpl(ID3D11DeviceContext* context)
 	: mesh_(make_unique<Mesh>()),
 	batch_(make_shared<PrimitiveBatch<VertexPositionNormalColorTexture>>(context)),
@@ -43,6 +45,7 @@ Geometry_pimpl::Geometry_pimpl(ID3D11DeviceContext* context)
 		grey_.at(i).color = Color(SlateGray.v);
 	}
 }
+#pragma warning(pop)
 
 Geometry_pimpl::~Geometry_pimpl() {}
 
@@ -87,6 +90,8 @@ void Geometry_pimpl::DrawWhiteRight(const string& fingerNumbers)
 		mesh_->GetWhiteIndices().size(), key->data(), key->size());
 }
 
+//#pragma warning(push)
+#pragma warning(disable:5045) // Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 void Geometry_pimpl::UpdateFinger(VertexPositionNormalColorTexture* destination1,
 	VertexPositionNormalColorTexture* destination2, const string& fingerNumbers) const
 {
@@ -114,3 +119,4 @@ void Geometry_pimpl::UpdateFinger(VertexPositionNormalColorTexture* destination1
 	else destination2[0].textureCoordinate = destination2[1].textureCoordinate
 		= destination2[2].textureCoordinate = destination2[3].textureCoordinate = Vector2(0, 0);
 }
+//#pragma warning(pop)

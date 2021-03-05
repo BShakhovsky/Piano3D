@@ -63,6 +63,8 @@ void RenderData::SwitchTo3D() const
 	shader_->UpdateProjection(device_->GetProjection());
 }
 
+#pragma warning(push)
+#pragma warning(disable: 4711) // Automatic inline expansion
 bool RenderData::Restore3DPosition() const
 {
 	return camera_->RestorePosition();
@@ -92,6 +94,7 @@ void RenderData::RotatePianoEnd(const float screenX, const float screenY) const
 {
 	camera_->RotatePianoEnd(screenX, screenY);
 }
+#pragma warning(pop)
 
 void RenderData::PressKey(const int16_t note) const
 {
@@ -169,6 +172,8 @@ void RenderData::BeginPianoDeskBuffer() const
 	pianoDesk_->BeginFrame(device_->GetContext(), device_->GetDepthView(), SteelBlue.v);
 	shader_->UpdateLights(true);
 }
+#pragma warning(push)
+#pragma warning(disable: 4711) // Automatic inline expansion
 void RenderData::DrawKeyboardReflection() const
 {
 	shader_->UpdateTexture(keyboardReflection_->GetTexture(device_->GetContext()));
@@ -176,6 +181,7 @@ void RenderData::DrawKeyboardReflection() const
 
 	keyboardReflection_->Draw();
 }
+#pragma warning(pop)
 
 void RenderData::ApplyShader() const
 {
