@@ -28,6 +28,7 @@ public:
 	void BeginKeyboardReflectionBuffer() const;
 	void DrawPianoDeskBuffer() const;
 	void DrawPianoDesk() const;
+	void DrawCotton(bool mirrowed) const;
 	void DrawPianoKey(int16_t note, bool mirrowed) const;
 	void DrawDebugInfo() const;
 private:

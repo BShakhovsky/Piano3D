@@ -9,7 +9,8 @@ using namespace SimpleMath;
 
 Geometry::Geometry(ID3D11DeviceContext* context)
 	: pimpl_(make_unique<Geometry_pimpl>(context)),
-	pianoDesk_(GeometricPrimitive::CreateBox(context, Vector3(deskLength, deskHeight, deskThickness)))
+	pianoDesk_(GeometricPrimitive::CreateBox(context, Vector3(deskLength, deskHeight, deskThickness))),
+	cotton_(GeometricPrimitive::CreateBox(context, Vector3(52, cottonThickness, cottonThickness)))
 {}
 Geometry::~Geometry() {}
 

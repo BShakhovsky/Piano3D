@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Mesh.h"
+#include "Geometry.h"
 #include "DxError.h"
 
 //#pragma warning(push)
@@ -49,13 +50,13 @@ blackPositions_
 	{ (1 + WHITE_GAP - BLACK_FILLET) * WHITE_WIDTH, 1.5f, 3.7f },
 	{ (1 - WHITE_GAP + BLACK_FILLET) * WHITE_WIDTH, 1.5f, 4.7f },
 	{ (1 + WHITE_GAP - BLACK_FILLET) * WHITE_WIDTH, 1.5f, 4.7f },
-	{ (1 - WHITE_GAP + BLACK_FILLET) * WHITE_WIDTH, 1.5f, 0 },
-	{ (1 + WHITE_GAP - BLACK_FILLET) * WHITE_WIDTH, 1.5f, 0 },
+	{ (1 - WHITE_GAP + BLACK_FILLET) * WHITE_WIDTH, 1.5f, Geometry::cottonThickness },
+	{ (1 + WHITE_GAP - BLACK_FILLET) * WHITE_WIDTH, 1.5f, Geometry::cottonThickness },
 
-	{ (1 - WHITE_GAP) * WHITE_WIDTH, 0.5f, 0 },
-	{ (1 + WHITE_GAP) * WHITE_WIDTH, 0.5f, 0 },
-	{ (1 - WHITE_GAP) * WHITE_WIDTH, 0.5f, 5 },
-	{ (1 + WHITE_GAP) * WHITE_WIDTH, 0.5f, 5 }
+	{ (1 - WHITE_GAP)				 * WHITE_WIDTH, 0.5f, Geometry::cottonThickness },
+	{ (1 + WHITE_GAP)				 * WHITE_WIDTH, 0.5f, Geometry::cottonThickness },
+	{ (1 - WHITE_GAP)				 * WHITE_WIDTH, 0.5f, 5 },
+	{ (1 + WHITE_GAP)				 * WHITE_WIDTH, 0.5f, 5 }
 },
 blackIndices_
 {

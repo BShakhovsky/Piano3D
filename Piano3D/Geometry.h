@@ -4,8 +4,8 @@ class Geometry : boost::noncopyable
 {
 	Geometry() = delete;
 public:
-	static constexpr float deskLength = 58.0f, deskHeight = 10.0f, deskThickness = 2.0f,
-		keyboardLength = 52.0f;
+	static constexpr float deskLength = 58.0f, deskHeight = 9.0f, deskThickness = 1.5f,
+		keyboardLength = 52.0f, cottonThickness = 0.25f;
 	static float GetKeyboardWidth();
 
 	explicit Geometry(ID3D11DeviceContext*);
@@ -21,12 +21,18 @@ public:
 	{
 		pianoDesk_->Draw(DirectX::SimpleMath::Matrix::CreateTranslation(
 			keyboardLength / 2, deskHeight / 2, -deskThickness / 2), view, projection,
-			DirectX::SimpleMath::Color(0.15f, 0.15f, 0.15f, 0.9f), texture , false, [&device, &context]()
+			DirectX::SimpleMath::Color(1.f, 1.f, 1.f, 0.85f), texture, false, [&device, &context]()
 		{
 			context->OMSetBlendState(DirectX::CommonStates(device).Opaque(), nullptr, 0xFF'FF'FF'FF);
 		});
 	}
+	void DrawCotton(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection) const
+	{
+		cotton_->Draw(DirectX::SimpleMath::Matrix::CreateTranslation(
+			52 / 2, 1 + cottonThickness / 2, cottonThickness / 2),
+			view, projection, DirectX::SimpleMath::Color(1.f, .0f, .0f));
+	}
 private:
 	const std::unique_ptr<class Geometry_pimpl> pimpl_;
-	const std::unique_ptr<DirectX::GeometricPrimitive> pianoDesk_;
+	const std::unique_ptr<DirectX::GeometricPrimitive> pianoDesk_, cotton_;
 };

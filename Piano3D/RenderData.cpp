@@ -138,6 +138,11 @@ void RenderData::DrawPianoDesk() const
 	pianoDesk_->Draw();
 	device_->AlfaBlendingOff();
 }
+void RenderData::DrawCotton(const bool mirrowed) const
+{
+	geometry_->DrawCotton(mirrowed ? camera_->GetMirrowedViewMatrix()
+		: camera_->GetViewMatrix(), device_->GetProjection());
+}
 void RenderData::DrawPianoKey(const int16_t note, const bool mirrowed) const
 {
 	shader_->UpdateWorldView(geometry_->GetRotatedMatrix(note, keyStates_->GetAngle(note)),
@@ -169,7 +174,9 @@ void RenderData::DrawDebugInfo() const
 void RenderData::BeginPianoDeskBuffer() const
 {
 	pianoDesk_->SetTargetBuffer(device_->GetContext(), device_->GetDepthView());
-	pianoDesk_->BeginFrame(device_->GetContext(), device_->GetDepthView(), SteelBlue.v);
+	const auto darkCoeff(.65f);
+	pianoDesk_->BeginFrame(device_->GetContext(), device_->GetDepthView(),
+		{ SteelBlue[0] * darkCoeff, SteelBlue[1] * darkCoeff, SteelBlue[2] * darkCoeff });
 	shader_->UpdateLights(true);
 }
 #pragma warning(push)

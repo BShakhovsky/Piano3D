@@ -41,6 +41,7 @@ void Render_pimpl::Draw() const
 void Render_pimpl::DrawScene(const bool mirrowed) const
 {
 	data_->SwitchTo3D();
+	data_->DrawCotton(mirrowed);
 	for (int16_t i(0); i < 88; ++i)
 		data_->DrawPianoKey(i, mirrowed);
 }
